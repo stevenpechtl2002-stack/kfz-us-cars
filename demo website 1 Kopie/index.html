@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AutoProfi Werkstatt Pforzheim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://08f2eb98-f2df-459c-93eb-d7da52f3e6d6.lovableproject.com/embed/widget.js" data-key="" data-label="Termin buchen" data-color="#e63946" defer></script>
+  <style>
+    :root {
+      --red: #e63946;
+      --red-dark: #b91c2c;
+      --red-glow: rgba(230,57,70,.25);
+      --bg: #f9f8f6;
+      --bg2: #ffffff;
+      --card: #ffffff;
+      --border: #ece9e4;
+      --text: #0f0f0f;
+      --muted: #6b6b6b;
+      --light: #f3f1ee;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; font-size: 17px; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 5rem;
+      transition: all .5s cubic-bezier(.4,0,.2,1);
+    }
+    nav.scrolled {
+      padding: .9rem 5rem;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 30px rgba(0,0,0,.06);
+    }
+    .logo { font-size: 1.45rem; font-weight: 900; color: #fff; text-decoration: none; letter-spacing: -0.8px; transition: color .4s; display: flex; align-items: center; gap: .5rem; }
+    .logo-icon { width: 32px; height: 32px; background: var(--red); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+    .logo em { color: var(--red); font-style: normal; }
+    nav.scrolled .logo { color: var(--text); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.7); text-decoration: none; font-size: .88rem; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; transition: color .3s; position: relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--red); transition:width .3s; border-radius:2px; }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    nav.scrolled .nav-links a { color: var(--muted); }
+    nav.scrolled .nav-links a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .nav-phone { color: rgba(255,255,255,.6); font-size: .82rem; font-weight: 600; text-decoration: none; transition: color .3s; }
+    nav.scrolled .nav-phone { color: var(--muted); }
+    .nav-phone:hover { color: var(--red) !important; }
+    .nav-btn { background: var(--red); color: #fff; border: none; padding: .65rem 1.6rem; border-radius: 50px; font-size: .8rem; font-weight: 700; cursor: pointer; letter-spacing: .5px; text-transform: uppercase; text-decoration: none; transition: all .25s; box-shadow: 0 4px 16px var(--red-glow); font-family: inherit; }
+    .nav-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+
+    /* ══ HERO ══ */
+    .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=90') center/cover no-repeat;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.85) 0%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.2) 100%),
+        linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%);
+    }
+    /* noise texture */
+    .hero-noise { position: absolute; inset: 0; opacity: .04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+
+    .hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1200px; padding: 0 5rem; padding-top: 90px; will-change: transform; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: .7rem; margin-bottom: 2rem; opacity: 0; }
+    .hero-eyebrow-line { width: 32px; height: 1px; background: var(--red); }
+    .hero-eyebrow span { color: rgba(255,255,255,.6); font-size: .78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .hero-h1 { font-size: clamp(4rem, 8vw, 8rem); font-weight: 900; line-height: .98; letter-spacing: -4px; color: #fff; opacity: 0; max-width: 750px; }
+    .hero-h1 .line-red { color: var(--red); display: block; }
+    .hero-h1 .line-outline { -webkit-text-stroke: 2px rgba(255,255,255,.3); color: transparent; display: block; }
+    .hero-sub { margin-top: 2rem; font-size: 1.05rem; color: rgba(255,255,255,.55); line-height: 1.8; max-width: 480px; opacity: 0; }
+    .hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; opacity: 0; flex-wrap: wrap; }
+    .btn-red { background: var(--red); color: #fff; border: none; padding: 1rem 2.4rem; border-radius: 50px; font-weight: 700; font-size: .92rem; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: .5rem; transition: all .25s; box-shadow: 0 8px 24px var(--red-glow); font-family: inherit; }
+    .btn-red:hover { background: var(--red-dark); transform: translateY(-3px); box-shadow: 0 16px 36px rgba(230,57,70,.45); }
+    .btn-outline-white { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.2); backdrop-filter: blur(10px); padding: 1rem 2.4rem; border-radius: 50px; font-weight: 600; font-size: .92rem; cursor: pointer; text-decoration: none; display: inline-block; transition: all .25s; font-family: inherit; }
+    .btn-outline-white:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.4); transform: translateY(-3px); }
+    .hero-stats { display: flex; gap: 0; margin-top: 5rem; opacity: 0; }
+    .hstat { padding: 0 2.5rem; position: relative; }
+    .hstat:first-child { padding-left: 0; }
+    .hstat:not(:last-child)::after { content:''; position:absolute; right:0; top:20%; height:60%; width:1px; background:rgba(255,255,255,.12); }
+    .hstat-n { font-size: 2.6rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; }
+    .hstat-n .red { color: var(--red); }
+    .hstat-l { font-size: .7rem; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1.5px; margin-top: .3rem; }
+    .hero-scroll-ind { position: absolute; bottom: 2.5rem; right: 5rem; z-index: 3; display: flex; align-items: center; gap: .75rem; color: rgba(255,255,255,.3); font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0; }
+    .scroll-mouse { width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,.25); border-radius: 12px; display: flex; justify-content: center; padding-top: 5px; }
+    .scroll-wheel { width: 3px; height: 7px; background: rgba(255,255,255,.5); border-radius: 2px; animation: wheelDown 1.8s ease-in-out infinite; }
+    @keyframes wheelDown { 0%{transform:translateY(0);opacity:1} 80%{transform:translateY(10px);opacity:0} 100%{transform:translateY(0);opacity:0} }
+
+    /* ══ TICKER ══ */
+    .ticker { background: var(--text); padding: 1rem 0; overflow: hidden; }
+    .ticker-track { display: flex; gap: 3.5rem; white-space: nowrap; animation: ticker 22s linear infinite; }
+    .ticker-track span { color: rgba(255,255,255,.5); font-size: .72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .ticker-track .dot { color: var(--red); font-size: .5rem; vertical-align: middle; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ══ SECTIONS ══ */
+    section { padding: 8rem 5rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .s-eyebrow { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .s-eyebrow-line { width: 24px; height: 2px; background: var(--red); border-radius: 2px; }
+    .s-label { color: var(--red); font-size: .72rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .s-title { font-size: clamp(2.4rem, 4vw, 3.6rem); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; }
+    .s-title em { color: var(--red); font-style: normal; }
+
+    /* ══ SERVICES ══ */
+    #leistungen { background: #f8f8f8; }
+    .services-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+    .services-top p { color: var(--muted); line-height: 1.9; font-size: 1rem; padding-top: .5rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .sv-card {
+      background: #f5f5f5; border: 1px solid #eeeeee; border-radius: 20px;
+      padding: 2.2rem; position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s, border-color .4s;
+      cursor: default;
+    }
+    .sv-card-bg { position: absolute; inset: 0; opacity: 0; background: linear-gradient(135deg, rgba(230,57,70,.05) 0%, transparent 60%); transition: opacity .4s; }
+    .sv-card:hover .sv-card-bg { opacity: 1; }
+    .sv-card:hover { transform: translateY(-10px); box-shadow: 0 24px 60px rgba(0,0,0,.12), 0 8px 20px rgba(0,0,0,.06); border-color: rgba(230,57,70,.25); }
+    .sv-num { font-size: .72rem; font-weight: 700; color: var(--red); letter-spacing: 1px; margin-bottom: 1.5rem; opacity: .6; }
+    .sv-icon { font-size: 2.6rem; margin-bottom: 1.3rem; display: block; transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .sv-card:hover .sv-icon { transform: scale(1.25) rotate(-8deg); }
+    .sv-card h3 { font-size: 1.18rem; font-weight: 800; margin-bottom: .7rem; line-height: 1.3; }
+    .sv-card p { font-size: .97rem; color: var(--muted); line-height: 1.85; }
+    .sv-price { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.3rem; background: rgba(230,57,70,.08); color: var(--red); padding: .35rem .9rem; border-radius: 50px; font-size: .78rem; font-weight: 700; }
+    .sv-arrow { position: absolute; bottom: 1.8rem; right: 1.8rem; width: 32px; height: 32px; background: var(--text); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8rem; opacity: 0; transform: scale(.6); transition: all .3s; }
+    .sv-card:hover .sv-arrow { opacity: 1; transform: scale(1); }
+
+    /* ══ WHY US ══ */
+    #vorteile { padding: 8rem 5rem; position: relative; overflow: hidden; }
+    #vorteile .vorteile-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=1800&q=85') center/cover no-repeat;
+      filter: brightness(.18) saturate(.6);
+    }
+    #vorteile::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle, rgba(230,57,70,.18) 0%, transparent 65%); pointer-events:none; z-index:1; }
+    #vorteile .container { position: relative; z-index: 2; }
+    .vorteile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .vorteile-left .s-title { color: #fff; }
+    .vorteile-left .s-title em { color: var(--red); }
+    .vorteile-left p { color: rgba(255,255,255,.45); line-height: 1.85; font-size: .95rem; margin-top: 1.2rem; max-width: 420px; }
+    .vorteile-big-num { font-size: 9rem; font-weight: 900; color: var(--red); line-height: 1; letter-spacing: -5px; margin-top: 2rem; opacity: .15; }
+    .vorteile-items { display: flex; flex-direction: column; gap: 1rem; }
+    .v-item { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 16px; padding: 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: background .3s, border-color .3s, transform .3s; }
+    .v-item:hover { background: rgba(255,255,255,.07); border-color: rgba(230,57,70,.3); transform: translateX(6px); }
+    .v-icon { width: 44px; height: 44px; background: rgba(230,57,70,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .v-item h4 { font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+    .v-item p { font-size: .85rem; color: rgba(255,255,255,.4); line-height: 1.6; }
+
+    /* ══ ABOUT ══ */
+    #ueber-uns { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .about-imgs { position: relative; padding-bottom: 3rem; padding-right: 3rem; }
+    .about-img1 { width: 85%; aspect-ratio: 3/4; object-fit: cover; border-radius: 24px; display: block; box-shadow: 0 30px 80px rgba(0,0,0,.15); }
+    .about-img2 { position: absolute; bottom: 0; right: 0; width: 58%; aspect-ratio: 1; object-fit: cover; border-radius: 20px; border: 6px solid var(--bg2); box-shadow: 0 20px 50px rgba(0,0,0,.15); }
+    .about-badge-float {
+      position: absolute; top: 2.5rem; left: -1.5rem;
+      background: var(--red); color: #fff;
+      padding: 1rem 1.4rem; border-radius: 18px;
+      text-align: center; box-shadow: 0 16px 40px rgba(230,57,70,.4);
+      animation: floatY 3.5s ease-in-out infinite;
+      font-family: inherit;
+    }
+    .about-badge-float strong { display: block; font-size: 2rem; font-weight: 900; line-height: 1; }
+    .about-badge-float span { font-size: .72rem; font-weight: 600; opacity: .85; }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .about-text .s-title { margin-bottom: 1.5rem; }
+    .about-text p { color: var(--muted); line-height: 1.9; font-size: .95rem; margin-bottom: 1rem; }
+    .about-checks { display: flex; flex-direction: column; gap: .65rem; margin-top: 1.75rem; }
+    .about-check { display: flex; align-items: center; gap: .85rem; font-size: .9rem; font-weight: 500; }
+    .check-icon { width: 22px; height: 22px; background: rgba(230,57,70,.1); color: var(--red); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .68rem; font-weight: 900; flex-shrink: 0; }
+
+    /* ══ GALLERY ══ */
+    #galerie { background: var(--light); padding: 6rem 5rem; }
+    .gallery-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+    .gallery-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: 240px 240px; gap: 1rem; }
+    .g-img { border-radius: 18px; overflow: hidden; position: relative; }
+    .g-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+    .g-img::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.2); opacity:0; transition:opacity .4s; border-radius:18px; }
+    .g-img:hover img { transform: scale(1.08); }
+    .g-img:hover::after { opacity: 1; }
+    .g-img.span2 { grid-row: span 2; }
+    .g-img.span2 img { height: 100%; }
+
+    /* ══ BOOKING ══ */
+    #termin { background: var(--bg2); }
+    .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .booking-left p { color: var(--muted); line-height: 1.85; margin-top: 1rem; margin-bottom: 2rem; font-size: .95rem; }
+    .c-items { display: flex; flex-direction: column; gap: .8rem; }
+    .c-item { display: flex; align-items: center; gap: 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem; transition: all .25s; }
+    .c-item:hover { border-color: rgba(230,57,70,.3); transform: translateX(5px); box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+    .c-ico { width: 40px; height: 40px; background: rgba(230,57,70,.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .c-lbl { font-size: .72rem; color: var(--muted); }
+    .c-val { font-size: .92rem; font-weight: 700; }
+    .booking-widget-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 28px; padding: 3.5rem 3rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .bwb-glow { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 300px; height: 200px; background: radial-gradient(ellipse, rgba(230,57,70,.1), transparent 70%); pointer-events: none; }
+    .bwb-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--red), #ff6b35); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 16px 40px rgba(230,57,70,.3); }
+    .booking-widget-box h3 { font-size: 1.7rem; font-weight: 900; letter-spacing: -.5px; }
+    .booking-widget-box > p { color: var(--muted); line-height: 1.75; font-size: .92rem; max-width: 320px; }
+    .bw-steps { display: flex; flex-direction: column; gap: .7rem; width: 100%; }
+    .bw-step { display: flex; align-items: center; gap: 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: .9rem 1.2rem; font-size: .88rem; font-weight: 600; text-align: left; transition: border-color .2s; }
+    .bw-step:hover { border-color: rgba(230,57,70,.25); }
+    .bw-step span { width: 26px; height: 26px; background: var(--red); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; flex-shrink: 0; }
+    .bw-btn { width: 100%; background: var(--text); color: #fff; border: none; padding: 1rem; border-radius: 14px; font-size: .95rem; font-weight: 800; cursor: pointer; letter-spacing: .3px; transition: all .25s; font-family: inherit; position: relative; overflow: hidden; }
+    .bw-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent); transform:translateX(-100%); transition:transform .5s; }
+    .bw-btn:hover { background: var(--red); transform: translateY(-2px); box-shadow: 0 12px 32px var(--red-glow); }
+    .bw-btn:hover::after { transform: translateX(100%); }
+    .bw-hint { font-size: .8rem; color: var(--muted); }
+    .bw-hint strong { color: var(--text); }
+    .zentime-wrap {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(230,57,70,.18);
+      box-shadow: 0 16px 50px rgba(0,0,0,.09), 0 0 0 4px rgba(230,57,70,.04);
+      background: #fff;
+    }
+    .zentime-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 720px;
+      border: none;
+      filter: hue-rotate(95deg) saturate(1.3);
+    }
+
+    /* ══ REVIEWS ══ */
+    #bewertungen { background: var(--bg); overflow: hidden; padding-left: 0; padding-right: 0; }
+    .rev-head { padding: 0 5rem; margin-bottom: 4rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; }
+    .rev-score { display: flex; align-items: center; gap: 1.5rem; }
+    .rev-big { font-size: 5.5rem; font-weight: 900; line-height: 1; letter-spacing: -3px; }
+    .rev-stars { color: #f59e0b; font-size: 1.2rem; letter-spacing: 3px; }
+    .rev-count { font-size: .82rem; color: var(--muted); margin-top: .2rem; }
+    .reviews-carousel { display: flex; flex-direction: column; gap: 1.2rem; }
+    .rev-track-wrap { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+    .rev-track { display: flex; gap: 1.4rem; width: max-content; animation: revLeft 38s linear infinite; }
+    .rev-track.rev-r { animation: revRight 44s linear infinite; }
+    .rev-track:hover, .rev-track.rev-r:hover { animation-play-state: paused; }
+    @keyframes revLeft  { from{transform:translateX(0)}    to{transform:translateX(-50%)} }
+    @keyframes revRight { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+    .r-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; width: 320px; flex-shrink: 0; transition: transform .3s, border-color .3s, box-shadow .3s; cursor: default; }
+    .r-card:hover { transform: translateY(-6px) scale(1.02); border-color: rgba(230,57,70,.2); box-shadow: 0 24px 60px rgba(0,0,0,.1); }
+    .r-stars { color: #f59e0b; font-size: .95rem; letter-spacing: 2px; margin-bottom: .9rem; }
+    .r-text { color: var(--muted); line-height: 1.75; font-size: .88rem; margin-bottom: 1.4rem; font-style: italic; position: relative; padding-left: 1.2rem; }
+    .r-text::before { content:'"'; position:absolute; left:0; top:-.2rem; color:var(--red); font-size:2rem; font-style:normal; line-height:1; }
+    .r-person { display: flex; align-items: center; gap: .75rem; }
+    .r-av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--red), #ff6b35); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .8rem; color: #fff; flex-shrink: 0; }
+    .r-person strong { display: block; font-size: .88rem; }
+    .r-person span { font-size: .75rem; color: var(--muted); }
+
+    /* ══ HOURS + MAP ══ */
+    #standort { background: var(--text); padding: 8rem 5rem; }
+    .standort-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    .hours-section .s-title { color: #fff; margin-bottom: 2rem; }
+    .hours-section .s-title em { color: var(--red); }
+    .hours-section .s-eyebrow-line { background: var(--red); }
+    .hours-section .s-label { color: var(--red); }
+    table.hours { width: 100%; border-collapse: collapse; }
+    table.hours tr { border-bottom: 1px solid rgba(255,255,255,.07); }
+    table.hours tr:last-child { border: none; }
+    table.hours td { padding: 1.2rem 0; font-size: 1.05rem; color: rgba(255,255,255,.6); line-height: 1.4; }
+    table.hours td:last-child { text-align: right; font-weight: 700; font-size: 1.05rem; color: rgba(255,255,255,.9); }
+    table.hours tr.today td { color: var(--red) !important; font-weight: 700; }
+    table.hours tr.today td:first-child::after { content: ' ◀ heute'; font-size: .7rem; font-weight: 600; opacity: .7; }
+    .closed-d { color: rgba(255,255,255,.2) !important; font-weight: 400 !important; }
+    .hotline-card { margin-top: 2rem; background: rgba(230,57,70,.12); border: 1px solid rgba(230,57,70,.2); border-radius: 16px; padding: 1.6rem 1.8rem; display: flex; align-items: center; gap: 1rem; }
+    .hotline-card .hico { font-size: 1.6rem; }
+    .hotline-card strong { display: block; color: #fff; font-size: 1rem; margin-bottom: .15rem; }
+    .hotline-card span { color: rgba(255,255,255,.45); font-size: .88rem; }
+    .map-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.07); }
+    .map-wrap iframe { display: block; width: 100%; height: 460px; border: none; }
+    .map-btns { display: flex; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .map-btns a { font-size: .82rem; padding: .65rem 1.4rem; }
+
+    /* ══ FOOTER ══ */
+    footer { background: #080808; padding: 5rem 5rem 2.5rem; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .f-brand .logo { color: #fff; font-size: 1.3rem; display: flex; }
+    .f-brand p { color: rgba(255,255,255,.3); font-size: .88rem; line-height: 1.8; margin-top: .75rem; max-width: 260px; }
+    .f-brand-badges { display: flex; gap: .6rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .f-badge { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.4); font-size: .72rem; font-weight: 600; padding: .3rem .75rem; border-radius: 50px; letter-spacing: .5px; }
+    .f-col h4 { font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.25rem; color: rgba(255,255,255,.25); }
+    .f-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+    .f-col a { color: rgba(255,255,255,.45); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .f-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.06); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: rgba(255,255,255,.2); flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom a { color: rgba(255,255,255,.3); text-decoration: none; }
+    .footer-bottom a:hover { color: rgba(255,255,255,.7); }
+
+    /* ══ TOAST ══ */
+    .toast { position: fixed; bottom: 2.5rem; right: 2.5rem; z-index: 9999; background: #22c55e; color: #fff; padding: 1rem 1.75rem; border-radius: 14px; font-weight: 700; font-size: .92rem; transform: translateY(80px) scale(.95); opacity: 0; transition: all .4s cubic-bezier(.34,1.56,.64,1); pointer-events: none; box-shadow: 0 12px 30px rgba(34,197,94,.3); }
+    .toast.show { transform: translateY(0) scale(1); opacity: 1; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1024px) {
+      section { padding: 5rem 2.5rem; }
+      #galerie, #standort, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      nav, nav.scrolled { padding-left: 2rem; padding-right: 2rem; }
+      .hero-inner { padding: 0 2.5rem; padding-top: 100px; }
+      .hero-scroll-ind { right: 2.5rem; }
+      .services-top { grid-template-columns: 1fr; gap: 1.5rem; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid, .booking-grid, .standort-grid, .vorteile-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .rev-head { padding: 0 2.5rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .g-img.span2 { grid-row: span 1; }
+      .g-img.span2 img, .g-img img { height: 220px; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 4rem 1.5rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-phone, .nav-btn { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 1.5rem 0; }
+      .hstat { padding: 0 1.5rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-h1 { letter-spacing: -2px; font-size: clamp(2.8rem, 10vw, 5rem); }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .rev-head { padding: 0 1.5rem; }
+    }
+
+    /* ══ HAMBURGER ══ */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 6px; z-index: 210;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: #fff; border-radius: 2px;
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      transform-origin: center;
+    }
+    nav.scrolled .hamburger span { background: var(--text); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══ MOBILE DRAWER ══ */
+    .nav-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55);
+      z-index: 205; opacity: 0; pointer-events: none;
+      transition: opacity .4s; backdrop-filter: blur(4px);
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+    .nav-drawer {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 300px;
+      height: 100vh; background: #0d0d0d; z-index: 210;
+      padding: 5.5rem 2.5rem 3rem;
+      transition: right .4s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column;
+      border-left: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-drawer.open { right: 0; }
+    .drawer-links { list-style: none; display: flex; flex-direction: column; }
+    .drawer-links li { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .drawer-links a {
+      display: block; padding: 1.1rem 0;
+      color: rgba(255,255,255,.7); text-decoration: none;
+      font-size: 1.05rem; font-weight: 700; transition: all .2s;
+    }
+    .drawer-links a:hover { color: #fff; padding-left: 6px; }
+    .drawer-cta { margin-top: 1.5rem; background: var(--red); color: #fff; border: none; padding: .9rem; border-radius: 14px; font-size: .92rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; display: block; font-family: inherit; transition: background .2s; }
+    .drawer-cta:hover { background: var(--red-dark); }
+    .drawer-phone-link { margin-top: 1rem; color: rgba(255,255,255,.45); font-size: .88rem; font-weight: 600; text-decoration: none; display: block; text-align: center; }
+    .drawer-phone-link:hover { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#start" class="logo">
+    <div class="logo-icon">🔧</div>
+    Auto<em>Profi</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Über uns</a></li>
+    <li><a href="#bewertungen">Bewertungen</a></li>
+    <li><a href="#standort">Standort</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="tel:072314567890" class="nav-phone">07231 / 45 67 890</a>
+    <a href="#termin" class="nav-btn">Termin buchen</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-overlay" id="navOverlay"></div>
+<div class="nav-drawer" id="navDrawer">
+  <ul class="drawer-links">
+    <li><a href="#leistungen" class="drawer-link">Leistungen</a></li>
+    <li><a href="#ueber-uns" class="drawer-link">Über uns</a></li>
+    <li><a href="#bewertungen" class="drawer-link">Bewertungen</a></li>
+    <li><a href="#standort" class="drawer-link">Standort</a></li>
+  </ul>
+  <a href="#termin" class="drawer-cta drawer-link">Termin buchen →</a>
+  <a href="tel:072314567890" class="drawer-phone-link">📞 07231 / 45 67 890</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="start">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-inner" id="heroInner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Zertifizierter Meisterbetrieb · Pforzheim</span>
+    </div>
+    <h1 class="hero-h1">
+      Ihr Auto in
+      <span class="line-red">besten Händen.</span>
+    </h1>
+    <p class="hero-sub">Professionelle Kfz-Werkstatt mit über 25 Jahren Erfahrung. Schnell, zuverlässig und transparent – direkt in Pforzheim.</p>
+    <div class="hero-actions">
+      <a href="#termin" class="btn-red">Termin buchen →</a>
+      <a href="#leistungen" class="btn-outline-white">Leistungen ansehen</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-n"><span class="counter" data-target="25">0</span><span class="red">+</span></div>
+        <div class="hstat-l">Jahre Erfahrung</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n"><span class="counter" data-target="8000">0</span><span class="red">+</span></div>
+        <div class="hstat-l">Zufriedene Kunden</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">4.9<span class="red">★</span></div>
+        <div class="hstat-l">Google Bewertung</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">100<span class="red">%</span></div>
+        <div class="hstat-l">Transparenz</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-ind" id="heroScroll">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scrollen</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Reifenwechsel</span><span class="dot">✦</span>
+    <span>TÜV Vorbereitung</span><span class="dot">✦</span>
+    <span>Inspektion</span><span class="dot">✦</span>
+    <span>Klimaservice</span><span class="dot">✦</span>
+    <span>Karosserie</span><span class="dot">✦</span>
+    <span>Bremsen</span><span class="dot">✦</span>
+    <span>Fahrzeugdiagnose</span><span class="dot">✦</span>
+    <span>Scheckheftpflege</span><span class="dot">✦</span>
+    <span>Ölwechsel</span><span class="dot">✦</span>
+    <span>Elektrik</span><span class="dot">✦</span>
+    <span>Reifenwechsel</span><span class="dot">✦</span>
+    <span>TÜV Vorbereitung</span><span class="dot">✦</span>
+    <span>Inspektion</span><span class="dot">✦</span>
+    <span>Klimaservice</span><span class="dot">✦</span>
+    <span>Karosserie</span><span class="dot">✦</span>
+    <span>Bremsen</span><span class="dot">✦</span>
+    <span>Fahrzeugdiagnose</span><span class="dot">✦</span>
+    <span>Scheckheftpflege</span><span class="dot">✦</span>
+    <span>Ölwechsel</span><span class="dot">✦</span>
+    <span>Elektrik</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- LEISTUNGEN -->
+<section id="leistungen">
+  <div class="container">
+    <div class="services-top">
+      <div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Was wir anbieten</span></div>
+        <h2 class="s-title">Unsere <em>Leistungen</em></h2>
+      </div>
+      <p>Vom einfachen Ölwechsel bis zur komplexen Motorrevision – wir kümmern uns um alles rund um Ihr Fahrzeug. Alle Marken, alle Modelle.</p>
+    </div>
+    <div class="services-grid">
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">01</div><span class="sv-icon">🔧</span><h3>Allgemeine Reparaturen</h3><p>Motor, Getriebe, Fahrwerk – fachgerecht und termingerecht für alle Fahrzeugtypen.</p><div class="sv-price">Ab 59 € / Std.</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">02</div><span class="sv-icon">🛢️</span><h3>Inspektion & Ölwechsel</h3><p>Herstellerkonforme Wartung und Scheckheftpflege – oft noch am selben Tag fertig.</p><div class="sv-price">Ab 89 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">03</div><span class="sv-icon">🔍</span><h3>TÜV / HU Vorbereitung</h3><p>Vollständiger Vorab-Check. Mängel beheben bevor der Prüfer kommt – auf Anhieb bestehen.</p><div class="sv-price">Ab 49 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">04</div><span class="sv-icon">❄️</span><h3>Klimaanlage Service</h3><p>Befüllung, Dichtigkeitsprüfung und Desinfektion für angenehmes Fahrerlebnis.</p><div class="sv-price">Ab 69 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">05</div><span class="sv-icon">⚡</span><h3>Elektrik & Diagnose</h3><p>OBD-Diagnose, Batteriewechsel, Lichtanlage – alle elektrischen Systeme aus einer Hand.</p><div class="sv-price">Ab 39 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-bg"></div><div class="sv-num">06</div><span class="sv-icon">🚗</span><h3>Karosserie & Lack</h3><p>Beulen, Kratzer, Unfallschäden – professionelle Instandsetzung mit perfekter Lackanpassung.</p><div class="sv-price">Auf Anfrage</div><div class="sv-arrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WARUM WIR -->
+<section id="vorteile">
+  <div class="vorteile-bg"></div>
+  <div class="container">
+    <div class="vorteile-grid">
+      <div class="vorteile-left">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Warum AutoProfi</span></div>
+        <h2 class="s-title">Qualität die <em>überzeugt</em></h2>
+        <p>Wir sind mehr als eine Werkstatt – wir sind Ihr Partner. Vertrauen, Ehrlichkeit und Top-Qualität sind keine Versprechen, sondern gelebte Werte seit 1998.</p>
+        <div class="vorteile-big-num">26</div>
+      </div>
+      <div class="vorteile-items">
+        <div class="v-item"><div class="v-icon">🏆</div><div><h4>Zertifizierter Meisterbetrieb</h4><p>Alle Arbeiten werden von ausgebildeten Kfz-Meistern durchgeführt und geprüft.</p></div></div>
+        <div class="v-item"><div class="v-icon">💰</div><div><h4>Faire & transparente Preise</h4><p>Kostenloser Kostenvoranschlag, keine versteckten Gebühren. Was wir sagen, das gilt.</p></div></div>
+        <div class="v-item"><div class="v-icon">⚡</div><div><h4>Express-Service verfügbar</h4><p>Viele Leistungen noch am gleichen Tag. Expresstermine auf Anfrage buchbar.</p></div></div>
+        <div class="v-item"><div class="v-icon">🚘</div><div><h4>Hol- & Bringservice</h4><p>Wir kommen zu Ihnen – abholen, reparieren, zurückbringen. Voller Komfort.</p></div></div>
+        <div class="v-item"><div class="v-icon">🔒</div><div><h4>Garantie auf alle Arbeiten</h4><p>12 Monate Garantie auf alle durchgeführten Reparaturen. Ihr Vertrauen ist unser Kapital.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÜBER UNS -->
+<section id="ueber-uns">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-imgs">
+        <img class="about-img1" src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=85" alt="Werkstatt" />
+        <img class="about-img2" src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=500&q=85" alt="Werkzeug" />
+        <div class="about-badge-float"><strong>26</strong><span>Jahre Erfahrung</span></div>
+      </div>
+      <div class="about-text">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Über uns</span></div>
+        <h2 class="s-title">Handwerk mit<br><em>Leidenschaft</em></h2>
+        <p>Seit 1998 sind wir Ihr verlässlicher Partner in Pforzheim. Was als kleine Zwei-Mann-Werkstatt begann, ist heute ein moderner Meisterbetrieb mit 12 erfahrenen Fachkräften.</p>
+        <p>Wir arbeiten mit den neuesten Diagnosegeräten und verwenden ausschließlich Originalteile oder gleichwertige Qualitätsersatzteile. Transparenz steht bei uns an erster Stelle – keine versteckten Kosten, klare Kommunikation.</p>
+        <div class="about-checks">
+          <div class="about-check"><div class="check-icon">✓</div>Alle Fahrzeugmarken und -modelle</div>
+          <div class="about-check"><div class="check-icon">✓</div>Moderne OBD-Diagnose & Prüfgeräte</div>
+          <div class="about-check"><div class="check-icon">✓</div>Kostenloser Kostenvoranschlag</div>
+          <div class="about-check"><div class="check-icon">✓</div>Hol- und Bringservice auf Anfrage</div>
+          <div class="about-check"><div class="check-icon">✓</div>Scheckheftpflege ohne Händlergebühren</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="container">
+    <div class="gallery-head">
+      <div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Einblicke</span></div>
+        <h2 class="s-title">Unsere <em>Werkstatt</em></h2>
+      </div>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-img span2"><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=900&q=85" alt="Mechaniker bei der Arbeit" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=85" alt="Fahrzeug" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=85" alt="Werkzeug" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85" alt="Motor" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&q=85" alt="Werkstatt Innen" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMIN -->
+<section id="termin">
+  <div class="container">
+    <div class="booking-grid">
+      <div class="booking-left">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Terminbuchung</span></div>
+        <h2 class="s-title">Termin <em>online</em> buchen</h2>
+        <p>Wählen Sie einfach einen freien Slot. Wir bestätigen Ihren Termin innerhalb von 2 Stunden per E-Mail oder Telefon.</p>
+        <div class="c-items">
+          <div class="c-item"><div class="c-ico">📞</div><div><div class="c-lbl">Telefon</div><div class="c-val">07231 / 45 67 890</div></div></div>
+          <div class="c-item"><div class="c-ico">✉️</div><div><div class="c-lbl">E-Mail</div><div class="c-val">info@autoprofi-pforzheim.de</div></div></div>
+          <div class="c-item"><div class="c-ico">📍</div><div><div class="c-lbl">Adresse</div><div class="c-val">Drosselweg 11, 75175 Pforzheim</div></div></div>
+          <div class="c-item"><div class="c-ico">🚨</div><div><div class="c-lbl">Notfall-Hotline 24/7</div><div class="c-val">0176 / 123 456 78</div></div></div>
+        </div>
+      </div>
+      <div id="termin-widget" class="zentime-wrap">
+        <iframe
+          src="https://www.zentime.io/embed/kalender/13a0a8ef-6ac3-40ca-88a3-c3168a8e7b14"
+          width="100%"
+          height="720"
+          frameborder="0"
+          loading="lazy"
+          title="Termin buchen – AutoProfi Pforzheim"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEWERTUNGEN -->
+<section id="bewertungen">
+  <div class="rev-head">
+    <div>
+      <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Kundenstimmen</span></div>
+      <h2 class="s-title">Was unsere <em>Kunden</em> sagen</h2>
+    </div>
+    <div class="rev-score">
+      <div class="rev-big">4.9</div>
+      <div><div class="rev-stars">★★★★★</div><div class="rev-count">312 Google-Bewertungen</div></div>
+    </div>
+  </div>
+  <div class="reviews-carousel">
+    <div class="rev-track-wrap">
+      <div class="rev-track">
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Super Werkstatt! Schnelle Reparatur, faire Preise und sehr freundliche Mitarbeiter. Mein BMW läuft wieder einwandfrei!</p><div class="r-person"><div class="r-av">TK</div><div><strong>Thomas K.</strong><span>BMW 3er · Bremsenwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Endlich eine Werkstatt, der ich vertrauen kann! Transparente Kommunikation, kein versteckter Aufpreis. TÜV bestanden!</p><div class="r-person"><div class="r-av">SM</div><div><strong>Sandra M.</strong><span>VW Golf · HU Vorbereitung</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Hol- und Bringservice war ein Lebensretter. Auto morgens abgeholt, nachmittags zurück. Top Service!</p><div class="r-person"><div class="r-av">JB</div><div><strong>Jonas B.</strong><span>Audi A4 · Inspektion</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Sehr kompetentes Team, ehrliche Beratung und keine unnötigen Zusatzkosten. Komme immer wieder gerne!</p><div class="r-person"><div class="r-av">MR</div><div><strong>Maria R.</strong><span>Mercedes C · Ölwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Klimaanlage in 2 Stunden repariert, Preis war fair. Absolute Empfehlung für Pforzheim und Umgebung!</p><div class="r-person"><div class="r-av">FK</div><div><strong>Felix K.</strong><span>Toyota · Klimaservice</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Karosserieschaden nach Unfall perfekt repariert. Man sieht nichts mehr, Farbe passt 100%. Klasse!</p><div class="r-person"><div class="r-av">AW</div><div><strong>Anna W.</strong><span>Opel Astra · Karosserie</span></div></div></div>
+        <!-- duplicate -->
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Super Werkstatt! Schnelle Reparatur, faire Preise und sehr freundliche Mitarbeiter. Mein BMW läuft wieder einwandfrei!</p><div class="r-person"><div class="r-av">TK</div><div><strong>Thomas K.</strong><span>BMW 3er · Bremsenwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Endlich eine Werkstatt, der ich vertrauen kann! Transparente Kommunikation, kein versteckter Aufpreis. TÜV bestanden!</p><div class="r-person"><div class="r-av">SM</div><div><strong>Sandra M.</strong><span>VW Golf · HU Vorbereitung</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Hol- und Bringservice war ein Lebensretter. Auto morgens abgeholt, nachmittags zurück. Top Service!</p><div class="r-person"><div class="r-av">JB</div><div><strong>Jonas B.</strong><span>Audi A4 · Inspektion</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Sehr kompetentes Team, ehrliche Beratung und keine unnötigen Zusatzkosten. Komme immer wieder gerne!</p><div class="r-person"><div class="r-av">MR</div><div><strong>Maria R.</strong><span>Mercedes C · Ölwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Klimaanlage in 2 Stunden repariert, Preis war fair. Absolute Empfehlung für Pforzheim und Umgebung!</p><div class="r-person"><div class="r-av">FK</div><div><strong>Felix K.</strong><span>Toyota · Klimaservice</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Karosserieschaden nach Unfall perfekt repariert. Man sieht nichts mehr, Farbe passt 100%. Klasse!</p><div class="r-person"><div class="r-av">AW</div><div><strong>Anna W.</strong><span>Opel Astra · Karosserie</span></div></div></div>
+      </div>
+    </div>
+    <div class="rev-track-wrap">
+      <div class="rev-track rev-r">
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Reifenwechsel super schnell, kein langer Termin nötig. Nettes Personal und absolut faire Preise.</p><div class="r-person"><div class="r-av">PH</div><div><strong>Peter H.</strong><span>Ford Focus · Reifenwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Elektrikproblem das andere nicht lösen konnten – hier in 1 Stunde behoben! Unglaublich kompetent.</p><div class="r-person"><div class="r-av">LM</div><div><strong>Laura M.</strong><span>Hyundai · Elektrik</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Kostenvoranschlag exakt eingehalten, keine bösen Überraschungen. So muss das sein! Danke AutoProfi.</p><div class="r-person"><div class="r-av">BN</div><div><strong>Bernd N.</strong><span>Kia · Inspektion</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Scheckheftpflege günstiger als beim Händler und gleiche Qualität. Nie wieder woanders!</p><div class="r-person"><div class="r-av">CS</div><div><strong>Christine S.</strong><span>VW Passat · Scheckheft</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Notfall am Freitagabend – trotzdem noch geholfen! Das nenne ich echten Kundenservice. 5 Sterne!</p><div class="r-person"><div class="r-av">DL</div><div><strong>Daniel L.</strong><span>Audi Q5 · Notfall</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Freundliche Atmosphäre, sauberer Wartebereich. Fühlt sich an wie beim Profi von nebenan.</p><div class="r-person"><div class="r-av">KF</div><div><strong>Katrin F.</strong><span>BMW X1 · TÜV</span></div></div></div>
+        <!-- duplicate -->
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Reifenwechsel super schnell, kein langer Termin nötig. Nettes Personal und absolut faire Preise.</p><div class="r-person"><div class="r-av">PH</div><div><strong>Peter H.</strong><span>Ford Focus · Reifenwechsel</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Elektrikproblem das andere nicht lösen konnten – hier in 1 Stunde behoben! Unglaublich kompetent.</p><div class="r-person"><div class="r-av">LM</div><div><strong>Laura M.</strong><span>Hyundai · Elektrik</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Kostenvoranschlag exakt eingehalten, keine bösen Überraschungen. So muss das sein! Danke AutoProfi.</p><div class="r-person"><div class="r-av">BN</div><div><strong>Bernd N.</strong><span>Kia · Inspektion</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Scheckheftpflege günstiger als beim Händler und gleiche Qualität. Nie wieder woanders!</p><div class="r-person"><div class="r-av">CS</div><div><strong>Christine S.</strong><span>VW Passat · Scheckheft</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Notfall am Freitagabend – trotzdem noch geholfen! Das nenne ich echten Kundenservice. 5 Sterne!</p><div class="r-person"><div class="r-av">DL</div><div><strong>Daniel L.</strong><span>Audi Q5 · Notfall</span></div></div></div>
+        <div class="r-card"><div class="r-stars">★★★★★</div><p class="r-text">Freundliche Atmosphäre, sauberer Wartebereich. Fühlt sich an wie beim Profi von nebenan.</p><div class="r-person"><div class="r-av">KF</div><div><strong>Katrin F.</strong><span>BMW X1 · TÜV</span></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STANDORT -->
+<section id="standort">
+  <div class="container">
+    <div class="standort-grid">
+      <div class="hours-section">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Öffnungszeiten & Standort</span></div>
+        <h2 class="s-title">Wann sind<br><em>wir da?</em></h2>
+        <table class="hours" id="hoursTable">
+          <tr><td>Montag</td><td>07:30 – 18:00 Uhr</td></tr>
+          <tr><td>Dienstag</td><td>07:30 – 18:00 Uhr</td></tr>
+          <tr><td>Mittwoch</td><td>07:30 – 18:00 Uhr</td></tr>
+          <tr><td>Donnerstag</td><td>07:30 – 18:00 Uhr</td></tr>
+          <tr><td>Freitag</td><td>07:30 – 17:00 Uhr</td></tr>
+          <tr><td>Samstag</td><td>08:00 – 13:00 Uhr</td></tr>
+          <tr><td>Sonntag</td><td class="closed-d">Geschlossen</td></tr>
+        </table>
+        <div class="hotline-card">
+          <div class="hico">🚨</div>
+          <div><strong>Notfall-Hotline 24/7</strong><span>0176 / 123 456 78 – immer erreichbar</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="map-wrap">
+          <iframe src="https://maps.google.com/maps?q=Drosselweg+11,+75175+Pforzheim,+Germany&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="AutoProfi Standort"></iframe>
+        </div>
+        <div class="map-btns">
+          <a href="https://maps.google.com/maps?q=Drosselweg+11,+75175+Pforzheim" target="_blank" class="btn-red">In Google Maps öffnen</a>
+          <a href="https://maps.google.com/maps/dir//Drosselweg+11,+75175+Pforzheim" target="_blank" class="btn-outline-dark">Route planen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="f-brand">
+        <a href="#start" class="logo"><div class="logo-icon">🔧</div>Auto<em>Profi</em></a>
+        <p>Ihr zertifizierter Kfz-Meisterbetrieb in Pforzheim. Qualität und Vertrauen seit 1998.</p>
+        <div class="f-brand-badges">
+          <span class="f-badge">TÜV Partner</span>
+          <span class="f-badge">Meisterbetrieb</span>
+          <span class="f-badge">Alle Marken</span>
+        </div>
+      </div>
+      <div class="f-col"><h4>Leistungen</h4><ul><li><a href="#leistungen">Reparaturen</a></li><li><a href="#leistungen">Inspektion</a></li><li><a href="#leistungen">TÜV Vorbereitung</a></li><li><a href="#leistungen">Klimaservice</a></li><li><a href="#leistungen">Elektrik</a></li></ul></div>
+      <div class="f-col"><h4>Unternehmen</h4><ul><li><a href="#ueber-uns">Über uns</a></li><li><a href="#vorteile">Warum wir</a></li><li><a href="#bewertungen">Bewertungen</a></li><li><a href="#standort">Standort</a></li><li><a href="#termin">Termin buchen</a></li></ul></div>
+      <div class="f-col"><h4>Kontakt</h4><ul><li><a href="tel:072314567890">07231 / 45 67 890</a></li><li><a href="mailto:info@autoprofi-pforzheim.de">info@autoprofi-pforzheim.de</a></li><li><a href="#">Drosselweg 11</a></li><li><a href="#">75175 Pforzheim</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AutoProfi Werkstatt Pforzheim GmbH</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Aktion erfolgreich!</div>
+
+<style>
+  .btn-outline-dark { background: rgba(255,255,255,.06); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.15); padding: .65rem 1.4rem; border-radius: 50px; font-size: .82rem; font-weight: 600; text-decoration: none; display: inline-block; transition: all .2s; font-family: inherit; }
+  .btn-outline-dark:hover { background: rgba(255,255,255,.12); color: #fff; transform: translateY(-2px); }
+</style>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── HERO INTRO ──
+  gsap.set(['.hero-eyebrow','.hero-h1','.hero-sub','.hero-actions','.hero-stats','#heroScroll'], { y: 50, opacity: 0 });
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+  tl.to('.hero-eyebrow', { opacity:1, y:0, duration:.8, delay:.2 })
+    .to('.hero-h1',      { opacity:1, y:0, duration:1  }, '-=.5')
+    .to('.hero-sub',     { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('.hero-actions', { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('.hero-stats',   { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('#heroScroll',   { opacity:1, y:0, duration:.7 }, '-=.4');
+
+  // ── PARALLAX ──
+  gsap.to('#heroBg',   { yPercent: 18, ease:'none', scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('#heroInner',{ yPercent:-25, ease:'none', scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+
+  // ── NAV ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── REVEAL HELPER ──
+  function reveal(sel, opts={}) {
+    gsap.utils.toArray(sel).forEach((el,i) => {
+      gsap.from(el, {
+        opacity:0, y: opts.y??55, x: opts.x??0, scale: opts.scale??1,
+        duration: opts.dur??.9,
+        delay: (opts.stagger??0)*i,
+        ease:'power3.out',
+        scrollTrigger: { trigger:el, start:'top 88%', toggleActions:'play none none none' }
+      });
+    });
+  }
+
+  reveal('.sv-card',       { y:70, stagger:.07 });
+  reveal('.v-item',        { x:40, stagger:.08 });
+  reveal('.vorteile-left', { x:-60 });
+  reveal('.about-imgs',    { x:-60 });
+  reveal('.about-text',    { x:60 });
+  reveal('.g-img',         { scale:.93, stagger:.09 });
+  reveal('.booking-left',  { x:-50 });
+  reveal('.booking-widget-box', { x:50 });
+  reveal('.hours-section', { x:-50 });
+  reveal('.map-wrap',      { x:50 });
+  reveal('.services-top',  { y:40 });
+  reveal('.rev-head',      { y:40 });
+
+  // ── COUNTERS ──
+  let started = false;
+  ScrollTrigger.create({
+    trigger: '.hero-stats', start: 'top 85%',
+    onEnter: () => {
+      if (started) return; started = true;
+      document.querySelectorAll('.counter').forEach(el => {
+        const target = +el.dataset.target;
+        gsap.to({v:0}, { v:target, duration:2.2, ease:'power2.out',
+          onUpdate() { el.textContent = Math.floor(this.targets()[0].v).toLocaleString('de'); }
+        });
+      });
+    }
+  });
+
+  // ── CURRENT DAY ──
+  const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  document.querySelectorAll('#hoursTable tr').forEach(row => {
+    if (row.cells[0]?.textContent.trim() === days[new Date().getDay()])
+      row.classList.add('today');
+  });
+
+  // ── SERVICE CARDS number hover effect ──
+  document.querySelectorAll('.sv-card').forEach(card => {
+    card.addEventListener('mouseenter', () => gsap.to(card.querySelector('.sv-num'), { opacity:1, duration:.3 }));
+    card.addEventListener('mouseleave', () => gsap.to(card.querySelector('.sv-num'), { opacity:.6, duration:.3 }));
+  });
+
+  // ── MOBILE NAV DRAWER ──
+  const hamburger = document.getElementById('hamburger');
+  const navDrawer = document.getElementById('navDrawer');
+  const navOverlay = document.getElementById('navOverlay');
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    navDrawer.classList.remove('open');
+    navOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.contains('open');
+    isOpen ? closeDrawer() : (hamburger.classList.add('open'), navDrawer.classList.add('open'), navOverlay.classList.add('open'), document.body.style.overflow = 'hidden');
+  });
+  navOverlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
+
+  // ── MOBILE: Termin-Buttons → externe URL ──
+  if (window.matchMedia('(max-width: 768px)').matches) {
+    document.querySelectorAll('a[href="#termin"]').forEach(a => {
+      a.href = 'https://zentime-website-test.vercel.app/#termin-widget';
+      a.target = '_self';
+    });
+  }
+</script>
+</body>
+</html>

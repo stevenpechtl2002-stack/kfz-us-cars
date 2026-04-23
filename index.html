@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kfz Lackierung Daglioglu – Professionelle Fahrzeuglackierung Karlsruhe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --red: #4ade80;
+      --red-dark: #22c55e;
+      --red-glow: rgba(74,222,128,.25);
+      --bg: #0d0d0d;
+      --bg2: #111111;
+      --card: #161616;
+      --border: #242424;
+      --text: #f0f0f0;
+      --muted: #888888;
+      --light: #181818;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; height: 100%; }
+    body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; font-size: 17px; font-weight: 300; letter-spacing: .01em; }
+    h1, h2, h3, h4, .s-title, .hero-title, .logo, .about-badge-float strong { font-family: 'Cormorant', Georgia, serif; font-weight: 500; letter-spacing: .02em; }
+    h1, h2, .s-title { font-weight: 600; }
+    #start { scroll-snap-align: none; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--red-dark); border-radius: 2px; }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 5rem;
+      transition: all .5s cubic-bezier(.4,0,.2,1);
+    }
+    nav.scrolled {
+      padding: .9rem 5rem;
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 4px 30px rgba(0,0,0,.4);
+    }
+    .logo { font-size: 1.5rem; font-weight: 400; color: #fff; text-decoration: none; letter-spacing: .1em; text-transform: uppercase; transition: color .4s; display: flex; align-items: center; gap: .5rem; font-family: 'Cormorant', Georgia, serif; }
+    .logo-icon { width: 32px; height: 32px; background: var(--red); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+    .logo em { color: var(--red); font-style: italic; }
+    nav.scrolled .logo { color: #fff; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .72rem; font-weight: 400; letter-spacing: 2.5px; text-transform: uppercase; transition: color .3s; position: relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--red); transition:width .3s; border-radius:2px; }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    nav.scrolled .nav-links a { color: rgba(255,255,255,.5); }
+    nav.scrolled .nav-links a:hover { color: #fff; }
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+    .nav-phone { color: rgba(255,255,255,.6); font-size: .82rem; font-weight: 600; text-decoration: none; transition: color .3s; }
+    nav.scrolled .nav-phone { color: rgba(255,255,255,.45); }
+    .nav-phone:hover { color: var(--red) !important; }
+    .nav-btn { background: var(--red); color: #fff; border: none; padding: .65rem 1.8rem; border-radius: 2px; font-size: .68rem; font-weight: 500; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; transition: all .25s; box-shadow: 0 4px 16px var(--red-glow); font-family: inherit; }
+    .nav-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 24px var(--red-glow); }
+
+    /* ══ HERO ══ */
+    .hero { height: 100vh; max-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      will-change: transform;
+      overflow: hidden;
+    }
+    .hero-bg video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.85) 0%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.2) 100%),
+        linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 50%);
+    }
+    .hero-noise { position: absolute; inset: 0; opacity: .04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px; }
+
+    .hero-inner { position: relative; z-index: 2; width: 100%; max-width: 1200px; padding: 0 5rem; padding-top: 80px; will-change: transform; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: .7rem; margin-bottom: 2rem; opacity: 0; }
+    .hero-eyebrow-line { width: 32px; height: 1px; background: var(--red); }
+    .hero-eyebrow span { color: rgba(255,255,255,.6); font-size: .78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .hero-h1 { font-size: clamp(4rem, 8vw, 8.5rem); font-weight: 300; line-height: 1.0; letter-spacing: .04em; color: #fff; opacity: 0; max-width: 820px; font-family: 'Cormorant', Georgia, serif; }
+    .hero-h1 .line-red { color: var(--red); display: block; font-style: italic; font-weight: 400; }
+    .hero-h1 .line-outline { -webkit-text-stroke: 1px rgba(255,255,255,.35); color: transparent; display: block; font-weight: 300; }
+    .hero-sub { margin-top: 2rem; font-size: 1rem; color: rgba(255,255,255,.5); line-height: 1.9; max-width: 460px; opacity: 0; font-weight: 300; letter-spacing: .04em; }
+    .hero-actions { display: flex; gap: 1rem; margin-top: 2.5rem; opacity: 0; flex-wrap: wrap; }
+    .btn-red { background: var(--red); color: #fff; border: none; padding: 1rem 2.8rem; border-radius: 2px; font-weight: 500; font-size: .72rem; letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: .6rem; transition: all .25s; box-shadow: 0 8px 24px var(--red-glow); font-family: inherit; }
+    .btn-red:hover { background: var(--red-dark); transform: translateY(-3px); box-shadow: 0 16px 36px rgba(74,222,128,.45); }
+    .btn-outline-white { background: transparent; color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.25); padding: 1rem 2.8rem; border-radius: 2px; font-weight: 400; font-size: .72rem; letter-spacing: 2.5px; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: all .25s; font-family: inherit; }
+    .btn-outline-white:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.5); color: #fff; transform: translateY(-3px); }
+    .hero-stats { display: flex; gap: 0; margin-top: 3rem; opacity: 0; }
+    .hstat { padding: 0 2.5rem; position: relative; }
+    .hstat:first-child { padding-left: 0; }
+    .hstat:not(:last-child)::after { content:''; position:absolute; right:0; top:20%; height:60%; width:1px; background:rgba(255,255,255,.12); }
+    .hstat-n { font-size: 2.6rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; }
+    .hstat-n .red { color: var(--red); }
+    .hstat-l { font-size: .7rem; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1.5px; margin-top: .3rem; }
+    .hero-scroll-ind { position: absolute; bottom: 2.5rem; right: 5rem; z-index: 3; display: flex; align-items: center; gap: .75rem; color: rgba(255,255,255,.3); font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0; }
+    .scroll-mouse { width: 22px; height: 34px; border: 1.5px solid rgba(255,255,255,.25); border-radius: 12px; display: flex; justify-content: center; padding-top: 5px; }
+    .scroll-wheel { width: 3px; height: 7px; background: rgba(255,255,255,.5); border-radius: 2px; animation: wheelDown 1.8s ease-in-out infinite; }
+    @keyframes wheelDown { 0%{transform:translateY(0);opacity:1} 80%{transform:translateY(10px);opacity:0} 100%{transform:translateY(0);opacity:0} }
+
+    /* ══ TICKER ══ */
+    .ticker { background: #0a0a0a; border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06); padding: 1rem 0; overflow: hidden; }
+    .ticker-track { display: flex; gap: 3.5rem; white-space: nowrap; animation: ticker 22s linear infinite; }
+    .ticker-track span { color: var(--red); font-size: .72rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
+    .ticker-track .dot { color: rgba(74,222,128,.35); font-size: .5rem; vertical-align: middle; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ══ SECTIONS ══ */
+    section { padding: 8rem 5rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .s-eyebrow { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .s-eyebrow-line { width: 24px; height: 2px; background: var(--red); border-radius: 2px; }
+    .s-label { color: var(--red); font-size: .68rem; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; font-family: 'DM Sans', sans-serif; }
+    .s-title { font-size: clamp(2.6rem, 4vw, 4rem); font-weight: 400; line-height: 1.1; letter-spacing: .02em; color: #fff; font-family: 'Cormorant', Georgia, serif; }
+    .s-title em { color: var(--red); font-style: italic; }
+
+    /* ══ SERVICES ══ */
+    #leistungen { background: #0a0a0a; }
+    #leistungen .s-title { color: #fff; }
+    #leistungen .services-top p { color: rgba(255,255,255,.45); }
+    .services-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+    .services-top p { color: var(--muted); line-height: 1.9; font-size: 1rem; padding-top: .5rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    /* GlowCard */
+    .sv-card {
+      --base: 0;
+      --spread: 200;
+      --radius: 20;
+      --border: 2;
+      --backdrop: hsl(0 0% 7% / 0.95);
+      --backup-border: rgba(255,255,255,0.08);
+      --size: 280;
+      --outer: 1;
+      --border-size: calc(var(--border) * 1px);
+      --spotlight-size: calc(var(--size) * 1px);
+      --hue: calc(var(--base) + (var(--xp, 0) * var(--spread)));
+      background-image: radial-gradient(
+        var(--spotlight-size) var(--spotlight-size) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(var(--hue) 100% 70% / 0.12), transparent
+      );
+      background-color: var(--backdrop);
+      border: var(--border-size) solid var(--backup-border);
+      border-radius: 20px;
+      padding: 2.2rem;
+      position: relative;
+      touch-action: none;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+      cursor: default;
+    }
+    .sv-card::before,
+    .sv-card::after {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      inset: calc(var(--border-size) * -1);
+      border: var(--border-size) solid transparent;
+      border-radius: calc(var(--radius) * 1px);
+      background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+      mask-clip: padding-box, border-box;
+      mask-composite: intersect;
+    }
+    .sv-card::before {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(var(--hue) 100% 50% / 1), transparent 100%
+      );
+      filter: brightness(2);
+    }
+    .sv-card::after {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(0 100% 100% / 1), transparent 100%
+      );
+    }
+    .sv-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,.4); }
+    .sv-card-glow-inner {
+      position: absolute; inset: 0; will-change: filter;
+      opacity: var(--outer, 1); border-radius: calc(var(--radius) * 1px);
+      border: calc(var(--border-size) * 20) solid transparent;
+      filter: blur(calc(var(--border-size) * 10));
+      background: none; pointer-events: none;
+    }
+    /* Shared GlowCard mixin for all card types */
+    .glow-card {
+      --base: 130;
+      --spread: 60;
+      --radius: 16;
+      --border: 1;
+      --backdrop: hsl(0 0% 7% / 0.95);
+      --backup-border: rgba(255,255,255,0.07);
+      --size: 200;
+      --outer: 1;
+      --border-size: calc(var(--border) * 1px);
+      --spotlight-size: calc(var(--size) * 1px);
+      --hue: calc(var(--base) + (var(--xp, 0) * var(--spread)));
+      background-image: radial-gradient(
+        var(--spotlight-size) var(--spotlight-size) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(var(--hue) 80% 65% / 0.10), transparent
+      );
+      background-color: var(--backdrop);
+      position: relative;
+      touch-action: none;
+      overflow: hidden;
+    }
+    .glow-card::before,
+    .glow-card::after {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      inset: calc(var(--border-size) * -1);
+      border: var(--border-size) solid transparent;
+      border-radius: calc(var(--radius) * 1px);
+      background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+      mask-clip: padding-box, border-box;
+      mask-composite: intersect;
+    }
+    .glow-card::before {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(var(--hue) 80% 55% / 1), transparent 100%
+      );
+      filter: brightness(2);
+    }
+    .glow-card::after {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.5) calc(var(--spotlight-size) * 0.5) at
+        calc(var(--lx, -999) * 1px) calc(var(--ly, -999) * 1px),
+        hsl(0 100% 100% / 1), transparent 100%
+      );
+    }
+    .sv-num { font-size: .72rem; font-weight: 700; color: var(--red); letter-spacing: 1px; margin-bottom: 1.5rem; opacity: .6; }
+    .sv-icon { font-size: 2.6rem; margin-bottom: 1.3rem; display: block; transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .sv-card:hover .sv-icon { transform: scale(1.25) rotate(-8deg); }
+    .sv-card h3 { font-size: 1.4rem; font-weight: 400; margin-bottom: .7rem; line-height: 1.3; color: #fff; font-family: 'Cormorant', Georgia, serif; letter-spacing: .04em; }
+    .sv-card p { font-size: .97rem; color: rgba(255,255,255,.45); line-height: 1.85; }
+    .sv-price { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.3rem; background: rgba(74,222,128,.15); color: var(--red); padding: .35rem .9rem; border-radius: 50px; font-size: .78rem; font-weight: 700; }
+    .sv-arrow { position: absolute; bottom: 1.8rem; right: 1.8rem; width: 32px; height: 32px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .8rem; opacity: 0; transform: scale(.6); transition: all .3s; }
+    .sv-card:hover .sv-arrow { opacity: 1; transform: scale(1); }
+
+    /* ══ WHY US ══ */
+    #vorteile { padding: 8rem 5rem; position: relative; overflow: hidden; }
+    #vorteile .vorteile-bg {
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    #vorteile .vorteile-bg video {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.15) saturate(.5);
+    }
+    #vorteile::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle, rgba(74,222,128,.18) 0%, transparent 65%); pointer-events:none; z-index:1; }
+    #vorteile .container { position: relative; z-index: 2; }
+    .vorteile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .vorteile-left .s-title { color: #fff; }
+    .vorteile-left .s-title em { color: var(--red); }
+    .vorteile-left p { color: rgba(255,255,255,.45); line-height: 1.85; font-size: .95rem; margin-top: 1.2rem; max-width: 420px; }
+    .vorteile-big-num { font-size: 9rem; font-weight: 900; color: var(--red); line-height: 1; letter-spacing: -5px; margin-top: 2rem; opacity: .15; }
+    .vorteile-items { display: flex; flex-direction: column; gap: 1rem; }
+    .v-item { background-color: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 16px; padding: 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: background-color .3s, border-color .3s, transform .3s; }
+    .v-item:hover { background-color: rgba(255,255,255,.07); border-color: rgba(74,222,128,.3); transform: translateX(6px); }
+    .v-icon { width: 44px; height: 44px; background: rgba(74,222,128,.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .v-item h4 { font-size: .95rem; font-weight: 700; color: #fff; margin-bottom: .3rem; }
+    .v-item p { font-size: .85rem; color: rgba(255,255,255,.4); line-height: 1.6; }
+
+    /* ══ ABOUT ══ */
+    #ueber-uns { background: #080808; position: relative; }
+    #ueber-uns .s-title { color: #fff; }
+    #ueber-uns .about-text p { color: rgba(255,255,255,.5); }
+    #ueber-uns .about-check { color: rgba(255,255,255,.85); }
+    #ueber-uns .about-img2 { border-color: #080808; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .about-imgs { position: relative; padding-bottom: 3rem; padding-right: 3rem; }
+    .about-img1 { width: 85%; aspect-ratio: 3/4; object-fit: cover; border-radius: 24px; display: block; box-shadow: 0 30px 80px rgba(0,0,0,.15); }
+    .about-img2 { position: absolute; bottom: 0; right: 0; width: 58%; aspect-ratio: 1; object-fit: cover; border-radius: 20px; border: 6px solid var(--bg2); box-shadow: 0 20px 50px rgba(0,0,0,.15); }
+    .about-badge-float {
+      position: absolute; top: 2.5rem; left: -1.5rem;
+      background: var(--red); color: #fff;
+      padding: 1rem 1.4rem; border-radius: 18px;
+      text-align: center; box-shadow: 0 16px 40px rgba(74,222,128,.4);
+      animation: floatY 3.5s ease-in-out infinite;
+      font-family: inherit;
+    }
+    .about-badge-float strong { display: block; font-size: 2rem; font-weight: 900; line-height: 1; }
+    .about-badge-float span { font-size: .72rem; font-weight: 600; opacity: .85; }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .about-text .s-title { margin-bottom: 1.5rem; }
+    .about-text p { color: var(--muted); line-height: 1.9; font-size: .95rem; margin-bottom: 1rem; }
+    .about-checks { display: flex; flex-direction: column; gap: .65rem; margin-top: 1.75rem; }
+    .about-check { display: flex; align-items: center; gap: .85rem; font-size: .9rem; font-weight: 500; }
+    .check-icon { width: 22px; height: 22px; background: rgba(74,222,128,.1); color: var(--red); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .68rem; font-weight: 900; flex-shrink: 0; }
+
+    /* ══ GALLERY ══ */
+    #galerie { background: #080808; padding: 6rem 5rem; }
+    .gallery-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+    .gallery-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; grid-template-rows: 240px 240px; gap: 1rem; }
+    .g-img { border-radius: 18px; overflow: hidden; position: relative; }
+    .g-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.4,0,.2,1); }
+    .g-img::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.2); opacity:0; transition:opacity .4s; border-radius:18px; }
+    .g-img:hover img { transform: scale(1.08); }
+    .g-img:hover::after { opacity: 1; }
+    .g-img.span2 { grid-row: span 2; }
+    .g-img.span2 img { height: 100%; }
+
+    /* ══ BOOKING ══ */
+    #termin { background: #0d0d0d; }
+    .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .booking-left p { color: rgba(255,255,255,.45); line-height: 1.85; margin-top: 1rem; margin-bottom: 2rem; font-size: .95rem; }
+    .c-items { display: flex; flex-direction: column; gap: .8rem; }
+    .c-item { display: flex; align-items: center; gap: 1rem; background-color: #141414; border: 1px solid #222; border-radius: 14px; padding: 1rem 1.2rem; transition: background-image .25s, border-color .25s, transform .25s, box-shadow .25s; }
+    .c-item:hover { border-color: rgba(74,222,128,.3); transform: translateX(5px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+    .c-ico { width: 40px; height: 40px; background: rgba(74,222,128,.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .c-lbl { font-size: .72rem; color: rgba(255,255,255,.4); }
+    .c-val { font-size: .92rem; font-weight: 700; color: #fff; }
+    .booking-widget-box {
+      --radius: 28; --size: 350;
+      background-color: #141414; border: 1px solid #222;
+      border-radius: 28px; padding: 3.5rem 3rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .bwb-glow { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 300px; height: 200px; background: radial-gradient(ellipse, rgba(74,222,128,.1), transparent 70%); pointer-events: none; }
+    .bwb-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--red), #86efac); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 16px 40px rgba(74,222,128,.3); }
+    .booking-widget-box h3 { font-size: 2rem; font-weight: 400; letter-spacing: .04em; color: #fff; font-family: 'Cormorant', Georgia, serif; }
+    .booking-widget-box > p { color: rgba(255,255,255,.45); line-height: 1.75; font-size: .92rem; max-width: 320px; }
+    .bw-steps { display: flex; flex-direction: column; gap: .7rem; width: 100%; }
+    .bw-step { display: flex; align-items: center; gap: 1rem; background-color: #1a1a1a; border: 1px solid #272727; border-radius: 12px; padding: .9rem 1.2rem; font-size: .88rem; font-weight: 600; text-align: left; transition: border-color .2s; color: rgba(255,255,255,.8); }
+    .bw-step:hover { border-color: rgba(74,222,128,.25); }
+    .bw-step span { width: 26px; height: 26px; background: var(--red); color: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; flex-shrink: 0; }
+    .bw-btn { width: 100%; background: var(--text); color: #fff; border: none; padding: 1rem; border-radius: 14px; font-size: .95rem; font-weight: 800; cursor: pointer; letter-spacing: .3px; transition: all .25s; font-family: inherit; position: relative; overflow: hidden; }
+    .bw-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent); transform:translateX(-100%); transition:transform .5s; }
+    .bw-btn:hover { background: var(--red); transform: translateY(-2px); box-shadow: 0 12px 32px var(--red-glow); }
+    .bw-btn:hover::after { transform: translateX(100%); }
+
+    /* ══ REVIEWS – vertical columns ══ */
+    #bewertungen { background: #0a0a0a; padding: 8rem 5rem; }
+    .rev-head { margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 2rem; }
+    .rev-score { display: flex; align-items: center; gap: 1.5rem; }
+    .rev-big { font-size: 5.5rem; font-weight: 900; line-height: 1; letter-spacing: -3px; color: #fff; }
+    .rev-stars { color: #f59e0b; font-size: 1.2rem; letter-spacing: 3px; }
+    .rev-count { font-size: .82rem; color: rgba(255,255,255,.4); margin-top: .2rem; }
+
+    .testi-cols-wrap {
+      display: flex; gap: 1.5rem; justify-content: center;
+      max-height: 740px; overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    }
+    .testi-col { display: flex; flex-direction: column; gap: 1.5rem; flex-shrink: 0; width: 320px; }
+    .testi-col-inner {
+      display: flex; flex-direction: column; gap: 1.5rem;
+      animation: scrollUp var(--dur, 15s) linear infinite;
+    }
+    @keyframes scrollUp { from { transform: translateY(0) } to { transform: translateY(-50%) } }
+
+    .t-card {
+      --radius: 24; --size: 180;
+      background-color: #141414; border: 1px solid #222; border-radius: 24px;
+      padding: 1.8rem; flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(74,222,128,.05);
+      transition: border-color .3s;
+    }
+    .t-card:hover { border-color: rgba(74,222,128,.25); }
+    .t-stars { color: #f59e0b; font-size: .85rem; letter-spacing: 2px; margin-bottom: .75rem; }
+    .t-card-text { color: rgba(255,255,255,.6); font-size: .9rem; line-height: 1.75; }
+    .t-card-person { display: flex; align-items: center; gap: .75rem; margin-top: 1.2rem; }
+    .t-card-person img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+    .t-card-person strong { display: block; font-size: .88rem; font-weight: 700; color: #fff; }
+    .t-card-person span { font-size: .78rem; color: rgba(255,255,255,.4); }
+
+    @media (max-width: 1024px) { .testi-col:nth-child(3) { display: none; } }
+    @media (max-width: 640px)  { .testi-col:nth-child(2) { display: none; } #bewertungen { padding: 4rem 1.5rem; } }
+
+    /* ══ HOURS + MAP ══ */
+    #standort { background: #0a0a0a; padding: 8rem 5rem; }
+    .standort-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+    .hours-section .s-title { color: #fff; margin-bottom: 2rem; }
+    .hours-section .s-title em { color: var(--red); }
+    .hours-section .s-eyebrow-line { background: var(--red); }
+    .hours-section .s-label { color: var(--red); }
+    table.hours { width: 100%; border-collapse: collapse; }
+    table.hours tr { border-bottom: 1px solid rgba(255,255,255,.07); }
+    table.hours tr:last-child { border: none; }
+    table.hours td { padding: 1.2rem 0; font-size: 1.05rem; color: rgba(255,255,255,.6); line-height: 1.4; }
+    table.hours td:last-child { text-align: right; font-weight: 700; font-size: 1.05rem; color: rgba(255,255,255,.9); }
+    table.hours tr.today td { color: var(--red) !important; font-weight: 700; }
+    table.hours tr.today td:first-child::after { content: ' ◀ heute'; font-size: .7rem; font-weight: 600; opacity: .7; }
+    .closed-d { color: rgba(255,255,255,.2) !important; font-weight: 400 !important; }
+    .hotline-card { margin-top: 2rem; background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.2); border-radius: 16px; padding: 1.6rem 1.8rem; display: flex; align-items: center; gap: 1rem; }
+    .hotline-card .hico { font-size: 1.6rem; }
+    .hotline-card strong { display: block; color: #fff; font-size: 1rem; margin-bottom: .15rem; }
+    .hotline-card span { color: rgba(255,255,255,.45); font-size: .88rem; }
+    .map-wrap { border-radius: 24px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.07); }
+    .map-wrap iframe { display: block; width: 100%; height: 460px; border: none; }
+    .map-btns { display: flex; gap: .75rem; margin-top: 1rem; flex-wrap: wrap; }
+    .map-btns a { font-size: .82rem; padding: .65rem 1.4rem; }
+
+    /* ══ IMAGE COMPARISON SLIDER ══ */
+    #vergleich { background: #080808; }
+    .ic-wrap {
+      position: relative; width: 100%; max-width: 900px; margin: 0 auto;
+      user-select: none; border-radius: 4px; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,.7);
+      cursor: ew-resize;
+      aspect-ratio: 16/9;
+    }
+    .ic-before { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left; }
+    .ic-after-wrap {
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    .ic-after-wrap img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left; }
+    .ic-handle {
+      position: absolute; top: 0; bottom: 0; width: 3px;
+      background: rgba(255,255,255,.75);
+      display: flex; align-items: center; justify-content: center;
+      transform: translateX(-50%);
+    }
+    .ic-handle::before, .ic-handle::after {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-style: solid;
+    }
+    .ic-btn {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: #fff; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.4);
+      transition: transform .15s, box-shadow .15s;
+      flex-shrink: 0;
+    }
+    .ic-btn svg { color: #333; }
+    .ic-wrap.dragging .ic-btn { transform: scale(1.12); box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+    .ic-labels { display: flex; justify-content: space-between; margin-top: 1.2rem; padding: 0 .5rem; }
+    .ic-label { font-size: .68rem; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,.35); font-weight: 500; }
+
+    /* ══ FOOTER ══ */
+    footer { background: #080808; padding: 5rem 5rem 2.5rem; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+    .f-brand .logo { color: #fff; font-size: 1.3rem; display: flex; }
+    .f-brand p { color: rgba(255,255,255,.3); font-size: .88rem; line-height: 1.8; margin-top: .75rem; max-width: 260px; }
+    .f-brand-badges { display: flex; gap: .6rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .f-badge { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.4); font-size: .72rem; font-weight: 600; padding: .3rem .75rem; border-radius: 50px; letter-spacing: .5px; }
+    .f-col h4 { font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.25rem; color: rgba(255,255,255,.25); }
+    .f-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+    .f-col a { color: rgba(255,255,255,.45); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .f-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.06); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: rgba(255,255,255,.2); flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom a { color: rgba(255,255,255,.3); text-decoration: none; }
+    .footer-bottom a:hover { color: rgba(255,255,255,.7); }
+
+    /* ══ TOAST ══ */
+    .toast { position: fixed; bottom: 2.5rem; right: 2.5rem; z-index: 9999; background: #22c55e; color: #fff; padding: 1rem 1.75rem; border-radius: 14px; font-weight: 700; font-size: .92rem; transform: translateY(80px) scale(.95); opacity: 0; transition: all .4s cubic-bezier(.34,1.56,.64,1); pointer-events: none; box-shadow: 0 12px 30px rgba(34,197,94,.3); }
+    .toast.show { transform: translateY(0) scale(1); opacity: 1; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1024px) {
+      section { padding: 5rem 2.5rem; }
+      #galerie, #standort, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      nav, nav.scrolled { padding-left: 2rem; padding-right: 2rem; }
+      .hero-inner { padding: 0 2.5rem; padding-top: 100px; }
+      .hero-scroll-ind { right: 2.5rem; }
+      .services-top { grid-template-columns: 1fr; gap: 1.5rem; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid, .booking-grid, .standort-grid, .vorteile-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .rev-head { padding: 0 2.5rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .g-img.span2 { grid-row: span 1; }
+      .g-img.span2 img, .g-img img { height: 220px; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 4rem 1.5rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-phone, .nav-btn { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-wrap: wrap; gap: 1.5rem 0; }
+      .hstat { padding: 0 1.5rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-h1 { letter-spacing: -2px; font-size: clamp(2.8rem, 10vw, 5rem); }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .rev-head { padding: 0 1.5rem; }
+    }
+
+    /* ══ HAMBURGER ══ */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 6px; z-index: 210;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: #fff; border-radius: 2px;
+      transition: all .35s cubic-bezier(.4,0,.2,1);
+      transform-origin: center;
+    }
+    nav.scrolled .hamburger span { background: var(--text); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══ MOBILE DRAWER ══ */
+    .nav-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55);
+      z-index: 205; opacity: 0; pointer-events: none;
+      transition: opacity .4s; backdrop-filter: blur(4px);
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+    .nav-drawer {
+      position: fixed; top: 0; right: -100%; width: 85%; max-width: 300px;
+      height: 100vh; background: #0d0d0d; z-index: 210;
+      padding: 5.5rem 2.5rem 3rem;
+      transition: right .4s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column;
+      border-left: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-drawer.open { right: 0; }
+    .drawer-links { list-style: none; display: flex; flex-direction: column; }
+    .drawer-links li { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .drawer-links a {
+      display: block; padding: 1.1rem 0;
+      color: rgba(255,255,255,.7); text-decoration: none;
+      font-size: 1.05rem; font-weight: 700; transition: all .2s;
+    }
+    .drawer-links a:hover { color: #fff; padding-left: 6px; }
+    .drawer-cta { margin-top: 1.5rem; background: var(--red); color: #fff; border: none; padding: .9rem; border-radius: 14px; font-size: .92rem; font-weight: 800; cursor: pointer; text-decoration: none; text-align: center; display: block; font-family: inherit; transition: background .2s; }
+    .drawer-cta:hover { background: var(--red-dark); }
+    .drawer-phone-link { margin-top: 1rem; color: rgba(255,255,255,.45); font-size: .88rem; font-weight: 600; text-decoration: none; display: block; text-align: center; }
+    .drawer-phone-link:hover { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#start" class="logo">
+    <div class="logo-icon">🎨</div>
+    Daglioglu<em>Lackierung</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#ueber-uns">Über uns</a></li>
+    <li><a href="#bewertungen">Bewertungen</a></li>
+    <li><a href="#standort">Standort</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="tel:+4972194315176" class="nav-phone">+49 721 94315176</a>
+    <a href="#termin" class="nav-btn">Termin buchen</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="nav-overlay" id="navOverlay"></div>
+<div class="nav-drawer" id="navDrawer">
+  <ul class="drawer-links">
+    <li><a href="#leistungen" class="drawer-link">Leistungen</a></li>
+    <li><a href="#ueber-uns" class="drawer-link">Über uns</a></li>
+    <li><a href="#bewertungen" class="drawer-link">Bewertungen</a></li>
+    <li><a href="#standort" class="drawer-link">Standort</a></li>
+  </ul>
+  <a href="#termin" class="drawer-cta drawer-link">Termin buchen →</a>
+  <a href="tel:+4972194315176" class="drawer-phone-link">📞 +49 721 94315176</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="start">
+  <div class="hero-bg" id="heroBg">
+    <video autoplay muted loop playsinline>
+      <source src="ElevenLabs_video_veo-3-1-fast_Professional..._2026-04-22T21_25_47.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-inner" id="heroInner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Professionelle Fahrzeuglackierung · Karlsruhe</span>
+    </div>
+    <h1 class="hero-h1">
+      Dein Auto.
+      <span class="line-red">Dein Style.</span>
+    </h1>
+    <p class="hero-sub">Professionelle KFZ-Folierung für Vollfolierungen, Schutzfolien und Werbebeschriftungen. Präzise, langlebig und nach deinen Wünschen – direkt in Karlsruhe.</p>
+    <div class="hero-actions">
+      <a href="#termin" class="btn-red">Termin buchen →</a>
+      <a href="#leistungen" class="btn-outline-white">Leistungen ansehen</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-n"><span class="counter" data-target="10">0</span><span class="red">+</span></div>
+        <div class="hstat-l">Jahre Erfahrung</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n"><span class="counter" data-target="2500">0</span><span class="red">+</span></div>
+        <div class="hstat-l">Foliierte Fahrzeuge</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">5.0<span class="red">★</span></div>
+        <div class="hstat-l">Google Bewertung</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">100<span class="red">%</span></div>
+        <div class="hstat-l">Maßarbeit</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-ind" id="heroScroll">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span>Scrollen</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>Vollfolierung</span><span class="dot">✦</span>
+    <span>Teilfolierung</span><span class="dot">✦</span>
+    <span>Schutzfolie PPF</span><span class="dot">✦</span>
+    <span>Werbebeschriftung</span><span class="dot">✦</span>
+    <span>Farbwechsel</span><span class="dot">✦</span>
+    <span>Matt-Folierung</span><span class="dot">✦</span>
+    <span>Chrom-Folierung</span><span class="dot">✦</span>
+    <span>Lackschutzfolie</span><span class="dot">✦</span>
+    <span>Carbon-Optik</span><span class="dot">✦</span>
+    <span>Dachfolierung</span><span class="dot">✦</span>
+    <span>Vollfolierung</span><span class="dot">✦</span>
+    <span>Teilfolierung</span><span class="dot">✦</span>
+    <span>Schutzfolie PPF</span><span class="dot">✦</span>
+    <span>Werbebeschriftung</span><span class="dot">✦</span>
+    <span>Farbwechsel</span><span class="dot">✦</span>
+    <span>Matt-Folierung</span><span class="dot">✦</span>
+    <span>Chrom-Folierung</span><span class="dot">✦</span>
+    <span>Lackschutzfolie</span><span class="dot">✦</span>
+    <span>Carbon-Optik</span><span class="dot">✦</span>
+    <span>Dachfolierung</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- LEISTUNGEN -->
+<section id="leistungen" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="services-top">
+      <div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Was wir anbieten</span></div>
+        <h2 class="s-title">Unsere <em>Leistungen</em></h2>
+      </div>
+      <p>Von der Vollfolierung bis zur Schutzfolie – wir verwandeln dein Fahrzeug. Alle Marken, alle Modelle, jeder Wunsch.</p>
+    </div>
+    <div class="services-grid">
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">01</div><span class="sv-icon">🎨</span><h3>Vollfolierung</h3><p>Kompletter Farbwechsel deines Fahrzeugs in jeder gewünschten Farbe und Finish – matt, glänzend oder satin.</p><div class="sv-price">Ab 1.800 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">02</div><span class="sv-icon">✂️</span><h3>Teilfolierung</h3><p>Dach, Spiegel, Motorhaube oder Stoßstangen gezielt in einem anderen Farbton oder Design gestalten.</p><div class="sv-price">Ab 199 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">03</div><span class="sv-icon">🛡️</span><h3>Lackschutzfolie PPF</h3><p>Transparente Hochleistungsfolie schützt deinen Lack dauerhaft vor Steinschlag, Kratzern und Umwelteinflüssen.</p><div class="sv-price">Ab 299 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">04</div><span class="sv-icon">🏢</span><h3>Werbebeschriftung</h3><p>Professionelle Fahrzeugbeschriftung für Firmenfahrzeuge – individuell, auffällig und wetterfest.</p><div class="sv-price">Auf Anfrage</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">05</div><span class="sv-icon">🌑</span><h3>Carbon & Spezialfolien</h3><p>Carbon-Optik, Chrom, Holzdekor oder individuelle Prints – für den besonderen Auftritt auf der Straße.</p><div class="sv-price">Ab 149 €</div><div class="sv-arrow">→</div></div>
+      <div class="sv-card"><div class="sv-card-glow-inner"></div><div class="sv-num">06</div><span class="sv-icon">🚗</span><h3>Folienentfernung</h3><p>Professionelle und rückstandslose Entfernung alter Folierungen – schonend für den Originallack.</p><div class="sv-price">Ab 299 €</div><div class="sv-arrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WARUM WIR -->
+<section id="vorteile">
+  <div class="vorteile-bg">
+    <video autoplay muted loop playsinline>
+      <source src="ElevenLabs_video_veo-3-1-fast_Dark cinemat..._2026-04-22T21_10_34.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="container">
+    <div class="vorteile-grid">
+      <div class="vorteile-left">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Warum KFZ Folie</span></div>
+        <h2 class="s-title">Qualität die <em>überzeugt</em></h2>
+        <p>Wir sind mehr als ein Folierungsbetrieb – wir machen dein Fahrzeug zum Unikat. Präzision, Premium-Materialien und Leidenschaft für Details seit über 10 Jahren.</p>
+        <div class="vorteile-big-num">10</div>
+      </div>
+      <div class="vorteile-items">
+        <div class="v-item glow-card"><div class="v-icon">🏆</div><div><h4>Zertifizierter Fachbetrieb</h4><p>Alle Folierungen werden von ausgebildeten Fachkräften mit Erfahrung aus über 2.500 Projekten durchgeführt.</p></div></div>
+        <div class="v-item glow-card"><div class="v-icon">🎨</div><div><h4>Premium-Folienmaterialien</h4><p>Wir verwenden ausschließlich Markenfolien von 3M, ORACAL und Avery Dennison – für maximale Langlebigkeit.</p></div></div>
+        <div class="v-item glow-card"><div class="v-icon">⚡</div><div><h4>Express-Service verfügbar</h4><p>Viele Folierungen in 1–3 Tagen fertig. Leihauto auf Anfrage. Damit du nicht lange auf dein Auto verzichten musst.</p></div></div>
+        <div class="v-item glow-card"><div class="v-icon">🔄</div><div><h4>Reversibel & lackschonend</h4><p>Folien lassen sich rückstandslos entfernen – der Originallack bleibt perfekt erhalten.</p></div></div>
+        <div class="v-item glow-card"><div class="v-icon">🔒</div><div><h4>Garantie auf alle Arbeiten</h4><p>2 Jahre Garantie auf alle Folierungen. Blasen, Ablösungen oder Fehler beheben wir kostenlos.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEWERTUNGEN -->
+<section id="bewertungen" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="rev-head">
+      <div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Kundenstimmen</span></div>
+        <h2 class="s-title">Was unsere <em>Kunden</em> sagen</h2>
+      </div>
+      <div class="rev-score">
+        <div class="rev-big">5.0</div>
+        <div><div class="rev-stars">★★★★★</div><div class="rev-count">187 Google-Bewertungen</div></div>
+      </div>
+    </div>
+
+    <div class="testi-cols-wrap">
+      <!-- Spalte 1 – 28s -->
+      <div class="testi-col">
+        <div class="testi-col-inner" style="--dur:28s">
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Einfach nur top! Mein Auto sieht nach der Lackierung wirklich aus wie neu.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Adriano+Cristiano&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Adriano Cristiano"><div><strong>Adriano Cristiano</strong><span>Local Guide · 13 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr professionell. Von der Annahme bis zur Abwicklung. Ich bin sehr zufrieden und werde auch immer wieder kommen 👍🏼</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Daniel+Kurpiers&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Daniel Kurpiers"><div><strong>Daniel Kurpiers</strong><span>6 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super glatte und sauber lackierte Teile, sehr gute Abwicklung. Sehr gute Kommunikation und schnelle Hilfe bei Lackschäden. Mehrmals die Dienstleistung in Anspruch genommen und ich bin sehr zufrieden.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Angelo+Accardo&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Angelo Accardo"><div><strong>Angelo Accardo</strong><span>Local Guide · 207 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ein tolles und kompetentes Team: schnell, zuverlässig und faire Preise. Und ein TOP Ergebnis: den Schaden sieht man nicht mehr! Herzlichen Dank.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Valeria&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Valeria"><div><strong>Valeria</strong><span>7 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich musste leider schon 2x Kunde werden. Aber beide Male wurde der Schaden so fachmännisch und professionell gerichtet, dass das Fahrzeug danach optisch besser da stand als von Werk an.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Timo+Barthlott&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Timo Barthlott"><div><strong>Timo Barthlott</strong><span>5 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super Arbeit zu einem sehr fairen Preis. Das ganze Team ist wirklich freundlich und kompetent. Alles rund um meinen Auftrag lief schnell und problemlos. Wird auf jeden Fall weiterempfohlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marius+G&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marius G"><div><strong>Marius G</strong><span>1 Rezension</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Kfz-Lackierung Daglioglu liefert immer wieder eine 1A Arbeit ab. Bei mir wurde ein Unfallschaden repariert und ich bin sehr zufrieden mit dem Ergebnis und der Qualität.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Conrad+Meyer&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Conrad Meyer"><div><strong>Conrad Meyer</strong><span>Local Guide · 23 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Bin sehr zufrieden. Top Preis/Leistung!! Nur zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Stefan+Leis&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Stefan Leis"><div><strong>Stefan Leis</strong><span>Local Guide · 56 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Mega geil</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Claudio+Casta&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Claudio Casta"><div><strong>Claudio Casta</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr zufrieden mit der Arbeit. Nur zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marie+Dehorn&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marie Dehorn"><div><strong>Marie Dehorn</strong><span>Local Guide · 109 Rezensionen</span></div></div></div>
+          <!-- duplicate for infinite loop -->
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Einfach nur top! Mein Auto sieht nach der Lackierung wirklich aus wie neu.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Adriano+Cristiano&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Adriano Cristiano"><div><strong>Adriano Cristiano</strong><span>Local Guide · 13 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr professionell. Von der Annahme bis zur Abwicklung. Ich bin sehr zufrieden und werde auch immer wieder kommen 👍🏼</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Daniel+Kurpiers&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Daniel Kurpiers"><div><strong>Daniel Kurpiers</strong><span>6 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super glatte und sauber lackierte Teile, sehr gute Abwicklung. Sehr gute Kommunikation und schnelle Hilfe bei Lackschäden. Mehrmals die Dienstleistung in Anspruch genommen und ich bin sehr zufrieden.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Angelo+Accardo&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Angelo Accardo"><div><strong>Angelo Accardo</strong><span>Local Guide · 207 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ein tolles und kompetentes Team: schnell, zuverlässig und faire Preise. Und ein TOP Ergebnis: den Schaden sieht man nicht mehr! Herzlichen Dank.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Valeria&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Valeria"><div><strong>Valeria</strong><span>7 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich musste leider schon 2x Kunde werden. Aber beide Male wurde der Schaden so fachmännisch und professionell gerichtet, dass das Fahrzeug danach optisch besser da stand als von Werk an.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Timo+Barthlott&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Timo Barthlott"><div><strong>Timo Barthlott</strong><span>5 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super Arbeit zu einem sehr fairen Preis. Das ganze Team ist wirklich freundlich und kompetent. Alles rund um meinen Auftrag lief schnell und problemlos. Wird auf jeden Fall weiterempfohlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marius+G&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marius G"><div><strong>Marius G</strong><span>1 Rezension</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Kfz-Lackierung Daglioglu liefert immer wieder eine 1A Arbeit ab. Bei mir wurde ein Unfallschaden repariert und ich bin sehr zufrieden mit dem Ergebnis und der Qualität.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Conrad+Meyer&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Conrad Meyer"><div><strong>Conrad Meyer</strong><span>Local Guide · 23 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Bin sehr zufrieden. Top Preis/Leistung!! Nur zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Stefan+Leis&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Stefan Leis"><div><strong>Stefan Leis</strong><span>Local Guide · 56 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Mega geil</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Claudio+Casta&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Claudio Casta"><div><strong>Claudio Casta</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr zufrieden mit der Arbeit. Nur zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marie+Dehorn&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marie Dehorn"><div><strong>Marie Dehorn</strong><span>Local Guide · 109 Rezensionen</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- Spalte 2 – 35s -->
+      <div class="testi-col">
+        <div class="testi-col-inner" style="--dur:35s">
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr gute Zusammenarbeit zwischen mir als Fahrzeugaufbereitung und dieser Firma. Ich bin immer sehr überrascht, wie schnell und sauber gearbeitet wird. Meine Kunden sind alle immer sehr zufrieden.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Nasseffekt&background=1a1a1a&color=4ade80&size=80&bold=true" alt="NASSEFFEKT"><div><strong>NASSEFFEKT Aufbereitung</strong><span>2 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich habe sofort einen Termin bekommen und nach zwei Tagen wurde mein Lackschaden behoben. Super Ergebnis. Sehr kompetente Beratung. Insbesondere sind die Preise fair und transparent, das ist nicht üblich.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Eddie+01&background=1a1a1a&color=4ade80&size=80&bold=true" alt="eddie 01"><div><strong>eddie 01</strong><span>Local Guide · 46 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Habe heute mein Auto lackieren lassen und bin mehr als zufrieden. Super Service und sehr freundliches und kompetentes Personal. Kann ich wärmstens weiter empfehlen 👍👍</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Barbara+J&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Barbara J"><div><strong>Barbara J</strong><span>9 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super nette Leute, ein Kratzer am Auto ohne Termin im vorbeigehen rauspoliert. Für diesen sehr schnellen und noch dazu kostenfreien Service vielen Dank – es gibt sie wohl tatsächlich noch, Unternehmen die korrekt arbeiten.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Jakob+Heimeshoff&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Jakob Heimeshoff"><div><strong>Jakob Heimeshoff</strong><span>15 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnell einen Termin bekommen. Beratung, Ausführung und Abwicklung mit der Versicherung top. Sehr kundenfreundlich. Kann ich mit gutem Gewissen weiterempfehlen. Vielen Dank.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Manuela+Ulrich&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Manuela Ulrich"><div><strong>Manuela Ulrich</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr gute Beratung und Durchführung der einzelnen Arbeiten. Super tolle und sehr saubere Werkstatt, modernste Ausstattung. Definitiv weiter zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Faik+Akguel&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Faik Akgül"><div><strong>Faik Akgül</strong><span>Local Guide · 17 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Alles bestens. Super Qualität und sehr schnell!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Andre+Lang&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Andre Lang"><div><strong>Andre Lang</strong><span>11 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">In kurzer Zeit wurde mein Schaden fachmännisch behoben. Hervorheben möchte ich die freundliche Beratung, jederzeit kann ich die Firma empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Horst+Ziegenhorn&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Horst Ziegenhorn"><div><strong>Horst Ziegenhorn</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Preislich und qualitativ sehr zu empfehlen! Vom gesamten Team Daglioglu fühlte ich mich perfekt betreut.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Rene+Gerstner&background=1a1a1a&color=4ade80&size=80&bold=true" alt="René Gerstner"><div><strong>René Gerstner</strong><span>8 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Topp Arbeit, klasse lackiert, hochzufrieden – sehr zu empfehlen, Danke 👍</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Heike&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Heike"><div><strong>Heike</strong><span>Local Guide · 19 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Habe schon öfters hier was lackieren lassen! Qualitativ der beste in Karlsruhe und Umgebung! 👌</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=E+P&background=1a1a1a&color=4ade80&size=80&bold=true" alt="E P"><div><strong>E P</strong><span>Local Guide · 35 Rezensionen</span></div></div></div>
+          <!-- duplicate for infinite loop -->
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr gute Zusammenarbeit zwischen mir als Fahrzeugaufbereitung und dieser Firma. Ich bin immer sehr überrascht, wie schnell und sauber gearbeitet wird. Meine Kunden sind alle immer sehr zufrieden.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Nasseffekt&background=1a1a1a&color=4ade80&size=80&bold=true" alt="NASSEFFEKT"><div><strong>NASSEFFEKT Aufbereitung</strong><span>2 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich habe sofort einen Termin bekommen und nach zwei Tagen wurde mein Lackschaden behoben. Super Ergebnis. Sehr kompetente Beratung. Insbesondere sind die Preise fair und transparent, das ist nicht üblich.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Eddie+01&background=1a1a1a&color=4ade80&size=80&bold=true" alt="eddie 01"><div><strong>eddie 01</strong><span>Local Guide · 46 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Habe heute mein Auto lackieren lassen und bin mehr als zufrieden. Super Service und sehr freundliches und kompetentes Personal. Kann ich wärmstens weiter empfehlen 👍👍</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Barbara+J&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Barbara J"><div><strong>Barbara J</strong><span>9 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super nette Leute, ein Kratzer am Auto ohne Termin im vorbeigehen rauspoliert. Für diesen sehr schnellen und noch dazu kostenfreien Service vielen Dank – es gibt sie wohl tatsächlich noch, Unternehmen die korrekt arbeiten.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Jakob+Heimeshoff&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Jakob Heimeshoff"><div><strong>Jakob Heimeshoff</strong><span>15 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnell einen Termin bekommen. Beratung, Ausführung und Abwicklung mit der Versicherung top. Sehr kundenfreundlich. Kann ich mit gutem Gewissen weiterempfehlen. Vielen Dank.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Manuela+Ulrich&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Manuela Ulrich"><div><strong>Manuela Ulrich</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr gute Beratung und Durchführung der einzelnen Arbeiten. Super tolle und sehr saubere Werkstatt, modernste Ausstattung. Definitiv weiter zu empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Faik+Akguel&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Faik Akgül"><div><strong>Faik Akgül</strong><span>Local Guide · 17 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Alles bestens. Super Qualität und sehr schnell!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Andre+Lang&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Andre Lang"><div><strong>Andre Lang</strong><span>11 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">In kurzer Zeit wurde mein Schaden fachmännisch behoben. Hervorheben möchte ich die freundliche Beratung, jederzeit kann ich die Firma empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Horst+Ziegenhorn&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Horst Ziegenhorn"><div><strong>Horst Ziegenhorn</strong><span>3 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Preislich und qualitativ sehr zu empfehlen! Vom gesamten Team Daglioglu fühlte ich mich perfekt betreut.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Rene+Gerstner&background=1a1a1a&color=4ade80&size=80&bold=true" alt="René Gerstner"><div><strong>René Gerstner</strong><span>8 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Topp Arbeit, klasse lackiert, hochzufrieden – sehr zu empfehlen, Danke 👍</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Heike&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Heike"><div><strong>Heike</strong><span>Local Guide · 19 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Habe schon öfters hier was lackieren lassen! Qualitativ der beste in Karlsruhe und Umgebung! 👌</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=E+P&background=1a1a1a&color=4ade80&size=80&bold=true" alt="E P"><div><strong>E P</strong><span>Local Guide · 35 Rezensionen</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- Spalte 3 – 31s -->
+      <div class="testi-col">
+        <div class="testi-col-inner" style="--dur:31s">
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich bin auf Empfehlung zu Hr. Daglioglu um die Stoßstangen lackieren zu lassen. Die Jungs leisten hervorragende Arbeit. Das Preis-Leistungsverhältnis stimmt zu 100%. Super Zeitmanagement.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Ulrike+Moslimani&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Ulrike Moslimani"><div><strong>Ulrike Moslimani</strong><span>Local Guide · 14 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Die Arbeiten wurden professionell, sauber und mit einer hervorragenden Qualität fertiggestellt. Ich bin begeistert wie kundenfreundlich der Betrieb auf meine Wünsche einging. Sehr empfehlenswert.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Juergen+Friedmann&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Jürgen Friedmann"><div><strong>Jürgen Friedmann</strong><span>5 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Wir haben hier schon 4 Fahrzeuge vor Leasingrückgabe machen lassen, immer freundlich und nett, Top Arbeit zu fairem Preis. Kann man nur empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marcus+Klein&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marcus Klein"><div><strong>Marcus Klein</strong><span>Local Guide · 32 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnell und dabei eine sehr hohe Arbeitsqualität! Dazu noch flexibel was Abgabe und Abholung angeht. Kann ich nur weiterempfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Wolfgang+Maier&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Wolfgang Maier"><div><strong>Wolfgang Maier</strong><span>Local Guide · 19 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnelle und kompetente Abwicklung! Kann ich nur weiterempfehlen. Vielen Dank!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Kristina+Spuling&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Kristina Spuling"><div><strong>Kristina Spuling</strong><span>6 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr freundlich und hilfsbereit. Kann ich sehr empfehlen. In kurzer Zeit ein Schaden top repariert.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=W+M&background=1a1a1a&color=4ade80&size=80&bold=true" alt="W M"><div><strong>W M</strong><span>Local Guide · 29 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Top Adresse, verstehen ihr Handwerk und machen sehr gute Arbeit. Absolut empfehlenswert!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Me+Gi&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Me Gi"><div><strong>Me Gi</strong><span>9 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super Preis-Leistung, saubere Arbeit, sehr kompetentes Fachpersonal. Klare Weiterempfehlung!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Emma+070&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Emma 070"><div><strong>Emma 070</strong><span>2 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr qualifizierte, saubere und verantwortungsvolle Lackierung. Kann ich nur weiterempfehlen. 👌</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Buenyamin+Eris&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Bünyamin Eris"><div><strong>Bünyamin Eris</strong><span>7 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr freundlich und absolut kompetent. Kann ich uneingeschränkt empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Simon+Pfeffer&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Simon Pfeffer"><div><strong>Simon „Doc" Pfeffer</strong><span>8 Rezensionen</span></div></div></div>
+          <!-- duplicate for infinite loop -->
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Ich bin auf Empfehlung zu Hr. Daglioglu um die Stoßstangen lackieren zu lassen. Die Jungs leisten hervorragende Arbeit. Das Preis-Leistungsverhältnis stimmt zu 100%. Super Zeitmanagement.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Ulrike+Moslimani&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Ulrike Moslimani"><div><strong>Ulrike Moslimani</strong><span>Local Guide · 14 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Die Arbeiten wurden professionell, sauber und mit einer hervorragenden Qualität fertiggestellt. Ich bin begeistert wie kundenfreundlich der Betrieb auf meine Wünsche einging. Sehr empfehlenswert.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Juergen+Friedmann&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Jürgen Friedmann"><div><strong>Jürgen Friedmann</strong><span>5 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Wir haben hier schon 4 Fahrzeuge vor Leasingrückgabe machen lassen, immer freundlich und nett, Top Arbeit zu fairem Preis. Kann man nur empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Marcus+Klein&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Marcus Klein"><div><strong>Marcus Klein</strong><span>Local Guide · 32 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnell und dabei eine sehr hohe Arbeitsqualität! Dazu noch flexibel was Abgabe und Abholung angeht. Kann ich nur weiterempfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Wolfgang+Maier&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Wolfgang Maier"><div><strong>Wolfgang Maier</strong><span>Local Guide · 19 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr schnelle und kompetente Abwicklung! Kann ich nur weiterempfehlen. Vielen Dank!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Kristina+Spuling&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Kristina Spuling"><div><strong>Kristina Spuling</strong><span>6 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr freundlich und hilfsbereit. Kann ich sehr empfehlen. In kurzer Zeit ein Schaden top repariert.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=W+M&background=1a1a1a&color=4ade80&size=80&bold=true" alt="W M"><div><strong>W M</strong><span>Local Guide · 29 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Top Adresse, verstehen ihr Handwerk und machen sehr gute Arbeit. Absolut empfehlenswert!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Me+Gi&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Me Gi"><div><strong>Me Gi</strong><span>9 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Super Preis-Leistung, saubere Arbeit, sehr kompetentes Fachpersonal. Klare Weiterempfehlung!</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Emma+070&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Emma 070"><div><strong>Emma 070</strong><span>2 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr qualifizierte, saubere und verantwortungsvolle Lackierung. Kann ich nur weiterempfehlen. 👌</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Buenyamin+Eris&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Bünyamin Eris"><div><strong>Bünyamin Eris</strong><span>7 Rezensionen</span></div></div></div>
+          <div class="t-card glow-card"><div class="t-stars">★★★★★</div><p class="t-card-text">Sehr freundlich und absolut kompetent. Kann ich uneingeschränkt empfehlen.</p><div class="t-card-person"><img src="https://ui-avatars.com/api/?name=Simon+Pfeffer&background=1a1a1a&color=4ade80&size=80&bold=true" alt="Simon Pfeffer"><div><strong>Simon „Doc" Pfeffer</strong><span>8 Rezensionen</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÜBER UNS -->
+<section id="ueber-uns">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-imgs">
+        <img class="about-img1" src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=85" alt="Fahrzeugfolierung" />
+        <img class="about-img2" src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=500&q=85" alt="Sportauto" />
+        <div class="about-badge-float"><strong>10</strong><span>Jahre Erfahrung</span></div>
+      </div>
+      <div class="about-text">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Über uns</span></div>
+        <h2 class="s-title">Folierung mit<br><em>Leidenschaft</em></h2>
+        <p>Seit über 10 Jahren sind wir dein Spezialist für Fahrzeugfolierung in Karlsruhe. Was als Ein-Mann-Betrieb begann, ist heute ein eingespieltes Team aus leidenschaftlichen Folier-Experten.</p>
+        <p>Wir arbeiten mit den besten Materialien vom Markt und verlegen jede Folie mit höchster Sorgfalt und Präzision. Kein Blasen, keine Falten – nur perfekte Ergebnisse, auf die wir stolz sind.</p>
+        <div class="about-checks">
+          <div class="about-check"><div class="check-icon">✓</div>Alle Fahrzeugmarken und -modelle</div>
+          <div class="about-check"><div class="check-icon">✓</div>Premium-Folien von 3M, ORACAL & Avery</div>
+          <div class="about-check"><div class="check-icon">✓</div>Kostenlose Beratung & Farbmuster</div>
+          <div class="about-check"><div class="check-icon">✓</div>Leihauto auf Anfrage verfügbar</div>
+          <div class="about-check"><div class="check-icon">✓</div>2 Jahre Garantie auf alle Folierungen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VORHER NACHHER -->
+<section id="vergleich">
+  <div class="container">
+    <div style="text-align:center; margin-bottom: 3rem;">
+      <div class="s-eyebrow" style="justify-content:center"><div class="s-eyebrow-line"></div><span class="s-label">Transformation</span><div class="s-eyebrow-line"></div></div>
+      <h2 class="s-title" style="margin-top:1rem;">Vorher / <em>Nachher</em></h2>
+      <p style="color:rgba(255,255,255,.4); font-size:.9rem; margin-top:.75rem; letter-spacing:.04em;">Schiebe den Regler um die Verwandlung zu sehen</p>
+    </div>
+    <div class="ic-wrap" id="imgCompare">
+      <!-- Before (Grundfarbe) -->
+      <img class="ic-before"
+        src="034FBD9B-3D9B-4C0F-A929-B48617183C6E.PNG"
+        alt="Mercedes GLE vorher – original schwarz" draggable="false" />
+      <!-- After (Foliert) -->
+      <div class="ic-after-wrap" id="icAfterWrap">
+        <img src="EBC3FD87-C19A-4DFB-8553-C1C522CFCC05.PNG"
+          alt="Mercedes GLE nach Folierung – matt grün" draggable="false" />
+      </div>
+      <!-- Handle -->
+      <div class="ic-handle" id="icHandle">
+        <div class="ic-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18l-6-6 6-6"/>
+            <path d="M15 6l6 6-6 6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="ic-labels">
+      <span class="ic-label">Vorher</span>
+      <span class="ic-label">Nachher</span>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="container">
+    <div class="gallery-head">
+      <div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Einblicke</span></div>
+        <h2 class="s-title">Unsere <em>Arbeiten</em></h2>
+      </div>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-img span2"><img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=900&q=85" alt="Fahrzeugfolierung" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=85" alt="Sportwagen" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=85" alt="Auto" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1614026480209-cd9934144671?w=600&q=85" alt="Folie Detail" /></div>
+      <div class="g-img"><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=85" alt="Fahrzeug" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- TERMIN -->
+<section id="termin" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="booking-grid">
+      <div class="booking-left">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Terminbuchung</span></div>
+        <h2 class="s-title">Termin <em>online</em> buchen</h2>
+        <p>Wähle einen freien Termin für deine Beratung oder Folierung. Wir melden uns innerhalb von 2 Stunden zur Bestätigung.</p>
+        <div class="c-items">
+          <div class="c-item glow-card"><div class="c-ico">📞</div><div><div class="c-lbl">Telefon</div><div class="c-val">+49 721 94315176</div></div></div>
+          <div class="c-item glow-card"><div class="c-ico">✉️</div><div><div class="c-lbl">E-Mail</div><div class="c-val">info@daglioglu-lackierung.de</div></div></div>
+          <div class="c-item glow-card"><div class="c-ico">📍</div><div><div class="c-lbl">Adresse</div><div class="c-val">Johann-Georg-Schlosser-Str. 56, 76149 Karlsruhe</div></div></div>
+          <div class="c-item glow-card"><div class="c-ico">⏰</div><div><div class="c-lbl">Beratung</div><div class="c-val">Kostenlos & unverbindlich</div></div></div>
+        </div>
+      </div>
+      <div class="booking-widget-box glow-card">
+        <div class="bwb-glow"></div>
+        <div class="bwb-icon">🎨</div>
+        <h3>Jetzt Termin buchen</h3>
+        <p>Kostenlose Beratung, Farbmuster und ein persönliches Angebot – alles in einem Termin.</p>
+        <div class="bw-steps">
+          <div class="bw-step glow-card"><span>1</span>Fahrzeug & Wunschfolie auswählen</div>
+          <div class="bw-step glow-card"><span>2</span>Termin & Kontakt angeben</div>
+          <div class="bw-step glow-card"><span>3</span>Bestätigung per E-Mail / Telefon</div>
+        </div>
+        <a href="tel:+4972194315176" class="bw-btn">Jetzt anrufen & Termin buchen</a>
+        <p class="bw-hint">Oder schreib uns: <strong>info@daglioglu-lackierung.de</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STANDORT -->
+<section id="standort" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="standort-grid">
+      <div class="hours-section">
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">Öffnungszeiten & Standort</span></div>
+        <h2 class="s-title">Wann sind<br><em>wir da?</em></h2>
+        <table class="hours" id="hoursTable">
+          <tr><td>Montag</td><td>08:00 – 18:00 Uhr</td></tr>
+          <tr><td>Dienstag</td><td>08:00 – 18:00 Uhr</td></tr>
+          <tr><td>Mittwoch</td><td>08:00 – 18:00 Uhr</td></tr>
+          <tr><td>Donnerstag</td><td>08:00 – 18:00 Uhr</td></tr>
+          <tr><td>Freitag</td><td>08:00 – 17:00 Uhr</td></tr>
+          <tr><td>Samstag</td><td>09:00 – 14:00 Uhr</td></tr>
+          <tr><td>Sonntag</td><td class="closed-d">Geschlossen</td></tr>
+        </table>
+        <div class="hotline-card">
+          <div class="hico">📞</div>
+          <div><strong>Beratungshotline</strong><span>+49 721 94315176 – Mo–Sa erreichbar</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="map-wrap">
+          <iframe src="https://maps.google.com/maps?q=Johann-Georg-Schlosser-Stra%C3%9Fe+56,+76149+Karlsruhe&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Kfz Lackierung Daglioglu Standort"></iframe>
+        </div>
+        <div class="map-btns">
+          <a href="https://maps.google.com/maps?q=Johann-Georg-Schlosser-Stra%C3%9Fe+56,+76149+Karlsruhe" target="_blank" class="btn-red">In Google Maps öffnen</a>
+          <a href="https://maps.google.com/maps/dir//Johann-Georg-Schlosser-Stra%C3%9Fe+56,+76149+Karlsruhe" target="_blank" class="btn-outline-dark">Route planen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="f-brand">
+        <a href="#start" class="logo"><div class="logo-icon">🎨</div>Daglioglu<em>Lackierung</em></a>
+        <p>Dein Spezialist für professionelle Fahrzeugfolierung in Karlsruhe. Präzision und Leidenschaft seit über 10 Jahren.</p>
+        <div class="f-brand-badges">
+          <span class="f-badge">3M Partner</span>
+          <span class="f-badge">ORACAL zertifiziert</span>
+          <span class="f-badge">Alle Marken</span>
+        </div>
+      </div>
+      <div class="f-col"><h4>Leistungen</h4><ul><li><a href="#leistungen">Vollfolierung</a></li><li><a href="#leistungen">Teilfolierung</a></li><li><a href="#leistungen">PPF Schutzfolie</a></li><li><a href="#leistungen">Werbebeschriftung</a></li><li><a href="#leistungen">Carbon & Spezial</a></li></ul></div>
+      <div class="f-col"><h4>Unternehmen</h4><ul><li><a href="#ueber-uns">Über uns</a></li><li><a href="#vorteile">Warum wir</a></li><li><a href="#bewertungen">Bewertungen</a></li><li><a href="#standort">Standort</a></li><li><a href="#termin">Termin buchen</a></li></ul></div>
+      <div class="f-col"><h4>Kontakt</h4><ul><li><a href="tel:+4972194315176">+49 721 94315176</a></li><li><a href="mailto:info@daglioglu-lackierung.de">info@daglioglu-lackierung.de</a></li><li><a href="#">Johann-Georg-Schlosser-Str. 56</a></li><li><a href="#">76149 Karlsruhe</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Kfz Lackierung Daglioglu</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Aktion erfolgreich!</div>
+
+<style>
+  .btn-outline-dark { background: rgba(255,255,255,.05); color: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.12); padding: .65rem 1.4rem; border-radius: 50px; font-size: .82rem; font-weight: 600; text-decoration: none; display: inline-block; transition: all .2s; font-family: inherit; }
+  .btn-outline-dark:hover { background: rgba(255,255,255,.1); color: #fff; transform: translateY(-2px); }
+</style>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── HERO INTRO ──
+  gsap.set(['.hero-eyebrow','.hero-h1','.hero-sub','.hero-actions','.hero-stats','#heroScroll'], { y: 50, opacity: 0 });
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+  tl.to('.hero-eyebrow', { opacity:1, y:0, duration:.8, delay:.2 })
+    .to('.hero-h1',      { opacity:1, y:0, duration:1  }, '-=.5')
+    .to('.hero-sub',     { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('.hero-actions', { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('.hero-stats',   { opacity:1, y:0, duration:.8 }, '-=.6')
+    .to('#heroScroll',   { opacity:1, y:0, duration:.7 }, '-=.4');
+
+  // ── PARALLAX ──
+  gsap.to('#heroBg',   { yPercent: 18, ease:'none', scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+  gsap.to('#heroInner',{ yPercent:-25, ease:'none', scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:true } });
+
+  // ── NAV ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── REVEAL HELPER ──
+  function reveal(sel, opts={}) {
+    gsap.utils.toArray(sel).forEach((el,i) => {
+      gsap.from(el, {
+        opacity:0, y: opts.y??55, x: opts.x??0, scale: opts.scale??1,
+        duration: opts.dur??.9,
+        delay: (opts.stagger??0)*i,
+        ease:'power3.out',
+        scrollTrigger: { trigger:el, start:'top 88%', toggleActions:'play none none none' }
+      });
+    });
+  }
+
+  reveal('.sv-card',       { y:70, stagger:.07 });
+  reveal('.v-item',        { x:40, stagger:.08 });
+  reveal('.vorteile-left', { x:-60 });
+  reveal('.about-imgs',    { x:-60 });
+  reveal('.about-text',    { x:60 });
+  reveal('.g-img',         { scale:.93, stagger:.09 });
+  reveal('.booking-left',  { x:-50 });
+  reveal('.booking-widget-box', { x:50 });
+  reveal('.hours-section', { x:-50 });
+  reveal('.map-wrap',      { x:50 });
+  reveal('.services-top',  { y:40 });
+  reveal('.rev-head',      { y:40 });
+
+  // ── COUNTERS ──
+  let started = false;
+  ScrollTrigger.create({
+    trigger: '.hero-stats', start: 'top 85%',
+    onEnter: () => {
+      if (started) return; started = true;
+      document.querySelectorAll('.counter').forEach(el => {
+        const target = +el.dataset.target;
+        gsap.to({v:0}, { v:target, duration:2.2, ease:'power2.out',
+          onUpdate() { el.textContent = Math.floor(this.targets()[0].v).toLocaleString('de'); }
+        });
+      });
+    }
+  });
+
+  // ── CURRENT DAY ──
+  const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  document.querySelectorAll('#hoursTable tr').forEach(row => {
+    if (row.cells[0]?.textContent.trim() === days[new Date().getDay()])
+      row.classList.add('today');
+  });
+
+  // ── SERVICE CARDS number hover effect ──
+  document.querySelectorAll('.sv-card').forEach(card => {
+    card.addEventListener('mouseenter', () => gsap.to(card.querySelector('.sv-num'), { opacity:1, duration:.3 }));
+    card.addEventListener('mouseleave', () => gsap.to(card.querySelector('.sv-num'), { opacity:.6, duration:.3 }));
+  });
+
+  // ── GLOW CARDS ──
+  document.querySelectorAll('.sv-card, .glow-card').forEach(card => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const lx = e.clientX - rect.left;
+      const ly = e.clientY - rect.top;
+      const xp = (lx / rect.width).toFixed(4);
+      card.style.setProperty('--lx', lx.toFixed(2));
+      card.style.setProperty('--ly', ly.toFixed(2));
+      card.style.setProperty('--xp', xp);
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--lx', '-999');
+      card.style.setProperty('--ly', '-999');
+    });
+  });
+
+  // ── MOBILE NAV DRAWER ──
+  const hamburger = document.getElementById('hamburger');
+  const navDrawer = document.getElementById('navDrawer');
+  const navOverlay = document.getElementById('navOverlay');
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    navDrawer.classList.remove('open');
+    navOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.contains('open');
+    isOpen ? closeDrawer() : (hamburger.classList.add('open'), navDrawer.classList.add('open'), navOverlay.classList.add('open'), document.body.style.overflow = 'hidden');
+  });
+  navOverlay.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
+
+  // ── IMAGE COMPARISON SLIDER ──
+  (function () {
+    const wrap = document.getElementById('imgCompare');
+    const afterWrap = document.getElementById('icAfterWrap');
+    const handle = document.getElementById('icHandle');
+    if (!wrap) return;
+
+    let pos = 50;
+    let dragging = false;
+
+    function setPos(p) {
+      pos = Math.max(0, Math.min(100, p));
+      afterWrap.style.clipPath = `inset(0 ${100 - pos}% 0 0)`;
+      handle.style.left = pos + '%';
+    }
+
+    function fromEvent(clientX) {
+      const rect = wrap.getBoundingClientRect();
+      setPos(((clientX - rect.left) / rect.width) * 100);
+    }
+
+    setPos(50);
+
+    handle.addEventListener('mousedown', () => { dragging = true; wrap.classList.add('dragging'); });
+    wrap.addEventListener('mousedown', (e) => { dragging = true; wrap.classList.add('dragging'); fromEvent(e.clientX); });
+    window.addEventListener('mouseup', () => { dragging = false; wrap.classList.remove('dragging'); });
+    wrap.addEventListener('mousemove', (e) => { if (dragging) fromEvent(e.clientX); });
+
+    handle.addEventListener('touchstart', (e) => { dragging = true; wrap.classList.add('dragging'); e.preventDefault(); }, { passive: false });
+    wrap.addEventListener('touchstart', (e) => { dragging = true; wrap.classList.add('dragging'); fromEvent(e.touches[0].clientX); }, { passive: true });
+    window.addEventListener('touchend', () => { dragging = false; wrap.classList.remove('dragging'); });
+    wrap.addEventListener('touchmove', (e) => { if (dragging) { fromEvent(e.touches[0].clientX); e.preventDefault(); } }, { passive: false });
+  })();
+</script>
+</body>
+</html>
