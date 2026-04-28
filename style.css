@@ -56,6 +56,9 @@ nav.solid {
 .logo-star { color:var(--gold); }
 nav.scrolled .logo { color:var(--dark); }
 nav.scrolled .logo-star { color:var(--gold); }
+.logo-img { display:flex; align-items:center; text-decoration:none; flex-shrink:0; }
+.logo-img img { height:52px; width:auto; object-fit:contain; border-radius:5px; display:block; }
+nav.scrolled .logo-img img { filter:none; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
 .nav-links a { color:rgba(255,255,255,.72); font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; transition:color .25s; position:relative; font-family:'Barlow Condensed',sans-serif; }
 .nav-links a::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--red); transition:width .3s; border-radius:2px; }
