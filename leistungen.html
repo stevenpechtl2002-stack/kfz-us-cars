@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leistungen – American Import Cars</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .service-block { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; padding:5rem 0; border-bottom:1px solid var(--border); }
+    .service-block:last-child { border-bottom:none; }
+    .service-block.reverse { direction:rtl; }
+    .service-block.reverse > * { direction:ltr; }
+    .service-img { border-radius:20px; overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,.12); }
+    .service-img img { width:100%; height:400px; object-fit:cover; display:block; }
+    .stage-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.5rem; }
+    .stage-card { background:var(--bg); border:1.5px solid var(--border); border-radius:14px; padding:1.4rem; text-align:center; transition:border-color .25s,transform .25s; }
+    .stage-card:hover { border-color:var(--red); transform:translateY(-4px); }
+    .stage-card .stage-num { font-family:'Anton',sans-serif; font-size:2.5rem; color:var(--red); line-height:1; }
+    .stage-card h4 { font-size:1rem; font-weight:800; text-transform:uppercase; margin:.3rem 0; }
+    .stage-card p { font-size:.82rem; color:var(--muted); line-height:1.65; }
+    @media(max-width:1024px){.service-block,.service-block.reverse{grid-template-columns:1fr;direction:ltr;gap:2.5rem;}.stage-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<nav id="nav" class="solid">
+  <a href="index.html" class="logo"><span class="logo-star">★</span> American<em style="color:var(--red);font-style:normal;">Iron</em></a>
+  <ul class="nav-links">
+    <li><a href="index.html#leistungen">Leistungen</a></li>
+    <li><a href="ueber-uns.html">Über uns</a></li>
+    <li><a href="leistungen.html" class="active">Services</a></li>
+    <li><a href="import-prozess.html">Import</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="tel:+4972324071550" class="nav-phone">+49 7232 40 71 550</a>
+    <a href="kontakt.html" class="nav-btn">Termin buchen</a>
+  </div>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-overlay" id="navOverlay"></div>
+<div class="nav-drawer" id="navDrawer">
+  <ul class="drawer-links">
+    <li><a href="index.html#leistungen" class="drawer-link">Leistungen</a></li>
+    <li><a href="ueber-uns.html" class="drawer-link">Über uns</a></li>
+    <li><a href="leistungen.html" class="drawer-link">Services</a></li>
+    <li><a href="import-prozess.html" class="drawer-link">Import</a></li>
+    <li><a href="faq.html" class="drawer-link">FAQ</a></li>
+    <li><a href="kontakt.html" class="drawer-link">Kontakt</a></li>
+  </ul>
+  <a href="kontakt.html" class="drawer-cta drawer-link">Termin buchen →</a>
+  <a href="tel:+4972324071550" class="drawer-phone-link">📞 +49 7232 40 71 550</a>
+</div>
+
+<div class="page-hero">
+  <div class="stars-deco">★★★</div>
+  <div class="page-hero-inner">
+    <div class="page-hero-breadcrumb"><a href="index.html">Home</a><span>›</span><a href="leistungen.html">Leistungen</a></div>
+    <h1>Unsere <em>Leistungen</em></h1>
+    <p>Von der ersten Anfrage bis zur Schlüsselübergabe — wir bieten alles rund ums amerikanische Fahrzeug aus einer Hand.</p>
+  </div>
+</div>
+<div class="flag-bar"></div>
+
+<!-- LEISTUNGEN DETAIL -->
+<section style="background:var(--bg2);">
+  <div class="container">
+
+    <!-- 01 Import -->
+    <div class="service-block reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=900&q=85" alt="US-Fahrzeug Import" />
+      </div>
+      <div>
+        <div class="stars-row"><span>★</span><span>★</span><span>★</span></div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">01 — Import</span></div>
+        <h2 class="s-title">US-Fahrzeug<br><em>Import</em></h2>
+        <p style="color:var(--muted);line-height:1.9;margin-top:1rem;">Sie nennen uns Marke, Modell, Motor, Getriebe und Farbe — wir suchen das Fahrzeug für Sie in den USA, besichtigen es persönlich, fotografieren es und organisieren den gesamten Import: vom Kauf über die Verschiffung bis zur Zulassung in Deutschland.</p>
+        <p style="color:var(--muted);line-height:1.9;margin-top:.8rem;">Alle Fahrzeuge werden im Container verschifft (versichert) und landen in Rotterdam oder Bremerhaven. Wir kümmern uns um Zoll, TÜV-Gutachten und Zulassung — auf Wunsch bis zu Ihrer Haustür.</p>
+        <div style="display:flex;gap:1rem;margin-top:1.8rem;flex-wrap:wrap;">
+          <a href="import-prozess.html" class="btn-red">Zum Import-Prozess →</a>
+          <a href="kontakt.html" class="btn-outline">Anfrage stellen</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 VooDoo Performance -->
+    <div class="service-block reverse reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1614026480209-cd9934144671?w=900&q=85" alt="VooDoo Performance Chiptuning" />
+      </div>
+      <div>
+        <div class="stars-row"><span>★</span><span>★</span><span>★</span></div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">02 — Tuning</span></div>
+        <h2 class="s-title">VooDoo<br><em>Performance</em></h2>
+        <p style="color:var(--muted);line-height:1.9;margin-top:1rem;">Unsere hauseigene Performance-Abteilung bietet individuelle Motoroptimierung für nahezu alle Hersteller. Egal ob Benziner mit Turbo, Saugmotor, Diesel-Turbo oder V8-Kompressor — jede Software-Datei wird individuell auf Ihr Fahrzeug programmiert.</p>
+        <div class="stage-grid">
+          <div class="stage-card">
+            <div class="stage-num">1</div>
+            <h4>Stage 1</h4>
+            <p>Optimierung ohne Hardware-Umbau. Bis zu +20% Leistungszuwachs.</p>
+          </div>
+          <div class="stage-card">
+            <div class="stage-num">2</div>
+            <h4>Stage 2</h4>
+            <p>Mit ergänzenden Hardware-Upgrades. Spürbar mehr Durchzug und PS.</p>
+          </div>
+          <div class="stage-card">
+            <div class="stage-num">3</div>
+            <h4>Stage 3</h4>
+            <p>Vollausbau für maximale Leistung — motorsportnah und alltagstauglich.</p>
+          </div>
+        </div>
+        <a href="kontakt.html" class="btn-red" style="margin-top:1.5rem;">Performance anfragen →</a>
+      </div>
+    </div>
+
+    <!-- 03 Restaurierung -->
+    <div class="service-block reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=85" alt="Fahrzeugrestaurierung" />
+      </div>
+      <div>
+        <div class="stars-row"><span>★</span><span>★</span><span>★</span></div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">03 — Restaurierung</span></div>
+        <h2 class="s-title">Fahrzeug<em>restaurierung</em></h2>
+        <p style="color:var(--muted);line-height:1.9;margin-top:1rem;">Klassiker verdienen zweite Chancen. Wir restaurieren amerikanische Fahrzeuge aus den 50ern bis 90ern — technisch und optisch auf höchstem Niveau. Vom Teilrestauration bis zur kompletten Frame-off-Restaurierung.</p>
+        <p style="color:var(--muted);line-height:1.9;margin-top:.8rem;">Jede Restaurierung wird detailliert dokumentiert. Sie erhalten Fotos jedes Arbeitsschritts und einen lückenlosen Nachweis für Gutachter und Versicherungen.</p>
+        <a href="kontakt.html" class="btn-red" style="margin-top:1.5rem;">Projekt besprechen →</a>
+      </div>
+    </div>
+
+    <!-- 04 Reifenservice -->
+    <div class="service-block reverse reveal">
+      <div class="service-img">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=900&q=85" alt="Reifenservice" />
+      </div>
+      <div>
+        <div class="stars-row"><span>★</span><span>★</span><span>★</span></div>
+        <div class="s-eyebrow"><div class="s-eyebrow-line"></div><span class="s-label">04 — Reifenservice</span></div>
+        <h2 class="s-title">Reifen<em>service</em></h2>
+        <p style="color:var(--muted);line-height:1.9;margin-top:1rem;">US-Fahrzeuge haben oft spezielle Reifengrößen und -spezifikationen, die nicht jeder Anbieter kennt. Wir führen Reifenmontage, Auswuchten und Felgenservice speziell für amerikanische Fahrzeuggrößen durch.</p>
+        <p style="color:var(--muted);line-height:1.9;margin-top:.8rem;">Von Muscle-Car-Breitreifen bis zu modernen All-Season-Bereifungen für US-Pickups und SUVs — wir kennen die Dimensionen und haben die passenden Lösungen.</p>
+        <a href="kontakt.html" class="btn-red" style="margin-top:1.5rem;">Termin vereinbaren →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="cta-banner">
+  <h2>★ Welche Leistung brauchst du? ★</h2>
+  <p>Ruf uns an oder schreib uns — wir beraten dich kostenlos und unverbindlich.</p>
+  <div class="cta-btns">
+    <a href="kontakt.html" class="btn-white">Jetzt anfragen</a>
+    <a href="faq.html" class="btn-outline-white">Häufige Fragen</a>
+  </div>
+</div>
+
+<div class="footer-flag-top"></div>
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="f-brand"><a href="index.html" class="logo"><span class="logo-star" style="color:var(--gold)">★</span> American<em style="color:var(--red);font-style:normal;">Iron</em></a><p>Ihr Spezialist für US-Fahrzeugimport, Restaurierung und Performance-Tuning in Kämpfelbach-Bilfingen.</p><div class="f-brand-badges"><span class="f-badge">Gegründet 2008</span><span class="f-badge">Kämpfelbach</span><span class="f-badge">US-Experten</span></div></div>
+      <div class="f-col"><h4>Leistungen</h4><ul><li><a href="leistungen.html">US-Import</a></li><li><a href="leistungen.html">VooDoo Performance</a></li><li><a href="leistungen.html">Restaurierung</a></li><li><a href="leistungen.html">Reifenservice</a></li></ul></div>
+      <div class="f-col"><h4>Unternehmen</h4><ul><li><a href="ueber-uns.html">Über uns</a></li><li><a href="import-prozess.html">Import-Prozess</a></li><li><a href="faq.html">FAQ</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+      <div class="f-col"><h4>Kontakt</h4><ul><li><a href="tel:+4972324071550">+49 7232 40 71 550</a></li><li><a href="mailto:info@american-importcars.de">info@american-importcars.de</a></li><li><a href="kontakt.html">Boschstraße 6</a></li><li><a href="kontakt.html">75236 Kämpfelbach</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 American Import Cars</span><div class="footer-flag"><div class="flag-dot" style="background:var(--red)"></div><div class="flag-dot" style="background:#fff"></div><div class="flag-dot" style="background:var(--blue-hero)"></div></div><div style="display:flex;gap:1.5rem;"><a href="#">Impressum</a><a href="#">Datenschutz</a></div></div>
+  </div>
+</footer>
+
+<script>
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+  const ham=document.getElementById('hamburger'),ov=document.getElementById('navOverlay'),dr=document.getElementById('navDrawer');
+  function tog(o){ham.classList.toggle('open',o);ov.classList.toggle('open',o);dr.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';}
+  ham.addEventListener('click',()=>tog(!ham.classList.contains('open')));
+  ov.addEventListener('click',()=>tog(false));
+  document.querySelectorAll('.drawer-link').forEach(l=>l.addEventListener('click',()=>tog(false)));
+  const obs=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
