@@ -57,7 +57,7 @@ nav.solid {
 nav.scrolled .logo { color:var(--dark); }
 nav.scrolled .logo-star { color:var(--gold); }
 .logo-img { display:flex; align-items:center; text-decoration:none; flex-shrink:0; }
-.logo-img img { height:52px; width:auto; object-fit:contain; border-radius:5px; display:block; }
+.logo-img img { height:38px; width:auto; object-fit:contain; border-radius:4px; display:block; }
 nav.scrolled .logo-img img { filter:none; }
 .nav-links { display:flex; gap:2rem; list-style:none; }
 .nav-links a { color:rgba(255,255,255,.72); font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; transition:color .25s; position:relative; font-family:'Barlow Condensed',sans-serif; }
@@ -133,6 +133,9 @@ footer::before { content:'★ ★ ★ ★ ★ ★ ★ ★ ★'; position:absolut
 .f-brand .logo { font-size:1.2rem; }
 .f-brand p { color:rgba(255,255,255,.28); font-size:.86rem; line-height:1.8; margin-top:.7rem; max-width:255px; }
 .f-brand-badges { display:flex; gap:.5rem; margin-top:1.3rem; flex-wrap:wrap; }
+.f-logos { display:flex; align-items:center; gap:1.2rem; flex-wrap:wrap; margin-bottom:.4rem; }
+.f-logos img { height:34px; width:auto; object-fit:contain; border-radius:4px; }
+.f-logos .f-logo-box { background:rgba(255,255,255,.92); border-radius:5px; padding:3px 8px; display:flex; align-items:center; }
 .f-badge { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.36); font-size:.68rem; font-weight:700; padding:.27rem .7rem; border-radius:50px; letter-spacing:.5px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase; }
 .f-col h4 { font-family:'Barlow Condensed',sans-serif; font-size:.67rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:1.2rem; color:rgba(255,255,255,.22); }
 .f-col ul { list-style:none; display:flex; flex-direction:column; gap:.6rem; }
