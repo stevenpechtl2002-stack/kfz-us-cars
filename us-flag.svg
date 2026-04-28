@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1235 650">
+  <!-- 13 stripes -->
+  <rect width="1235" height="650" fill="#C8102E"/>
+  <rect y="50" width="1235" height="50" fill="#fff"/>
+  <rect y="150" width="1235" height="50" fill="#fff"/>
+  <rect y="250" width="1235" height="50" fill="#fff"/>
+  <rect y="350" width="1235" height="50" fill="#fff"/>
+  <rect y="450" width="1235" height="50" fill="#fff"/>
+  <rect y="550" width="1235" height="50" fill="#fff"/>
+  <!-- Blue canton -->
+  <rect width="494" height="350" fill="#002868"/>
+  <!-- Stars (50) — 9 rows alternating 6 and 5 stars -->
+  <g fill="#fff" font-size="28">
+    <!-- Row 1: 6 stars -->
+    <text x="25" y="48">★</text><text x="79" y="48">★</text><text x="133" y="48">★</text><text x="187" y="48">★</text><text x="241" y="48">★</text><text x="295" y="48">★</text>
+    <!-- Row 2: 5 stars -->
+    <text x="52" y="86">★</text><text x="106" y="86">★</text><text x="160" y="86">★</text><text x="214" y="86">★</text><text x="268" y="86">★</text>
+    <!-- Row 3: 6 stars -->
+    <text x="25" y="124">★</text><text x="79" y="124">★</text><text x="133" y="124">★</text><text x="187" y="124">★</text><text x="241" y="124">★</text><text x="295" y="124">★</text>
+    <!-- Row 4: 5 stars -->
+    <text x="52" y="162">★</text><text x="106" y="162">★</text><text x="160" y="162">★</text><text x="214" y="162">★</text><text x="268" y="162">★</text>
+    <!-- Row 5: 6 stars -->
+    <text x="25" y="200">★</text><text x="79" y="200">★</text><text x="133" y="200">★</text><text x="187" y="200">★</text><text x="241" y="200">★</text><text x="295" y="200">★</text>
+    <!-- Row 6: 5 stars -->
+    <text x="52" y="238">★</text><text x="106" y="238">★</text><text x="160" y="238">★</text><text x="214" y="238">★</text><text x="268" y="238">★</text>
+    <!-- Row 7: 6 stars -->
+    <text x="25" y="276">★</text><text x="79" y="276">★</text><text x="133" y="276">★</text><text x="187" y="276">★</text><text x="241" y="276">★</text><text x="295" y="276">★</text>
+    <!-- Row 8: 5 stars -->
+    <text x="52" y="314">★</text><text x="106" y="314">★</text><text x="160" y="314">★</text><text x="214" y="314">★</text><text x="268" y="314">★</text>
+    <!-- Row 9: 6 stars -->
+    <text x="25" y="342">★</text><text x="79" y="342">★</text><text x="133" y="342">★</text><text x="187" y="342">★</text><text x="241" y="342">★</text><text x="295" y="342">★</text>
+  </g>
+</svg>
