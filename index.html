@@ -89,12 +89,6 @@
       position:absolute; top:0; left:0; right:0; height:5px; z-index:3;
       background:linear-gradient(90deg, var(--red) 33.33%, #fff 33.33%, #fff 66.66%, var(--blue) 66.66%);
     }
-    /* Sterne-Muster links */
-    .hero-stars-bg {
-      position:absolute; left:0; top:0; bottom:0; width:3px; z-index:1;
-      background: repeating-linear-gradient(to bottom, var(--red) 0 10px, #fff 10px 20px, var(--blue) 20px 30px);
-      opacity:.4;
-    }
 
     .hero-inner {
       position:relative; z-index:2;
@@ -221,7 +215,7 @@
     /* ════ ÜBER UNS ════ */
     #ueber-uns { background:var(--bg2); position:relative; overflow:hidden; }
     /* Flaggen-Streifen rechts */
-    #ueber-uns::after { content:''; position:absolute; top:0; right:0; width:8px; bottom:0; background:repeating-linear-gradient(to bottom, var(--red) 0 24px, #fff 24px 48px, var(--blue) 48px 72px); opacity:.25; }
+    #ueber-uns::after { display:none; }
     .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
     .about-imgs { position:relative; padding-bottom:3rem; padding-right:3rem; }
     .about-img1 { width:85%; aspect-ratio:3/4; object-fit:cover; border-radius:20px; display:block; box-shadow:0 28px 70px rgba(0,0,0,.12); }
@@ -497,7 +491,6 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-flag-bar"></div>
-  <div class="hero-stars-bg"></div>
 
   <div class="hero-inner" id="heroInner">
     <div class="hero-eyebrow">
