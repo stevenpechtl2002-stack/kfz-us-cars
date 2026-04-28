@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kontakt – American Import Cars</title>
+  <meta name="description" content="Kontaktieren Sie American Import Cars in Kämpfelbach-Bilfingen. Kostenlose Beratung zu US-Import, Tuning und Restaurierung." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
   <style>
     .kontakt-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:5rem; align-items:start; }
@@ -151,7 +153,12 @@
         <h2 class="s-title" style="margin-bottom:.5rem;">Schreiben Sie<br><em>uns an</em></h2>
         <p style="color:var(--muted);font-size:.93rem;margin-bottom:2.5rem;line-height:1.8;">Schildern Sie uns Ihr Vorhaben — wir melden uns innerhalb von 24 Stunden bei Ihnen zurück und beraten Sie kostenlos und unverbindlich.</p>
 
-        <form id="contactForm" onsubmit="handleSubmit(event)">
+        <form id="contactForm">
+          <input type="hidden" name="access_key" value="DEIN-WEB3FORMS-KEY" />
+          <input type="hidden" name="subject" value="Neue Anfrage – American Import Cars" />
+          <input type="hidden" name="from_name" value="American Import Cars Website" />
+          <input type="hidden" name="redirect" value="false" />
+
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="vorname">Vorname</label>
@@ -199,16 +206,19 @@
 
           <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;">
             <input type="checkbox" id="datenschutz" name="datenschutz" required style="width:18px;height:18px;accent-color:var(--red);flex-shrink:0;" />
-            <label for="datenschutz" style="font-size:.85rem;color:var(--muted);line-height:1.5;">Ich habe die <a href="#" style="color:var(--red);">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</label>
+            <label for="datenschutz" style="font-size:.85rem;color:var(--muted);line-height:1.5;">Ich habe die <a href="datenschutz.html" style="color:var(--red);">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Daten zu.</label>
           </div>
 
-          <button type="submit" class="form-submit">
+          <button type="submit" class="form-submit" id="submitBtn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Nachricht senden
           </button>
 
           <div id="formSuccess" style="display:none;margin-top:1.5rem;background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.25);border-radius:12px;padding:1.2rem 1.5rem;color:#15803d;font-size:.9rem;font-weight:600;">
-            ✓ Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns bald bei Ihnen.
+            ✓ Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns innerhalb von 24 Stunden bei Ihnen.
+          </div>
+          <div id="formError" style="display:none;margin-top:1.5rem;background:rgba(200,16,46,.06);border:1.5px solid rgba(200,16,46,.2);border-radius:12px;padding:1.2rem 1.5rem;color:var(--red);font-size:.9rem;font-weight:600;">
+            Es ist ein Fehler aufgetreten. Bitte rufen Sie uns direkt an: +49 7232 40 71 550
           </div>
         </form>
       </div>
@@ -239,7 +249,7 @@
       <div class="f-col"><h4>Unternehmen</h4><ul><li><a href="ueber-uns.html">Über uns</a></li><li><a href="import-prozess.html">Import-Prozess</a></li><li><a href="faq.html">FAQ</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
       <div class="f-col"><h4>Kontakt</h4><ul><li><a href="tel:+4972324071550">+49 7232 40 71 550</a></li><li><a href="mailto:info@american-importcars.de">info@american-importcars.de</a></li><li><a href="kontakt.html">Boschstraße 6</a></li><li><a href="kontakt.html">75236 Kämpfelbach</a></li></ul></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 American Import Cars</span><div class="footer-flag"><div class="flag-dot" style="background:var(--red)"></div><div class="flag-dot" style="background:#fff"></div><div class="flag-dot" style="background:var(--blue-hero)"></div></div><div style="display:flex;gap:1.5rem;"><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">AGB</a></div></div>
+    <div class="footer-bottom"><span>© 2026 American Import Cars</span><div class="footer-flag"><div class="flag-dot" style="background:var(--red)"></div><div class="flag-dot" style="background:#fff"></div><div class="flag-dot" style="background:var(--blue-hero)"></div></div><div style="display:flex;gap:1.5rem;"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></div></div>
   </div>
 </footer>
 
@@ -251,12 +261,22 @@
   ham.addEventListener('click',()=>tog(!ham.classList.contains('open')));
   ov.addEventListener('click',()=>tog(false));
   document.querySelectorAll('.drawer-link').forEach(l=>l.addEventListener('click',()=>tog(false)));
-  function handleSubmit(e){
+  document.getElementById('contactForm').addEventListener('submit', async function(e){
     e.preventDefault();
-    document.getElementById('formSuccess').style.display='block';
-    e.target.reset();
-    setTimeout(()=>document.getElementById('formSuccess').style.display='none',6000);
-  }
+    const btn=document.getElementById('submitBtn');
+    btn.disabled=true; btn.textContent='Wird gesendet …';
+    const data=new FormData(this);
+    try{
+      const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:data});
+      const json=await res.json();
+      if(json.success){
+        document.getElementById('formSuccess').style.display='block';
+        this.reset();
+        setTimeout(()=>document.getElementById('formSuccess').style.display='none',8000);
+      } else { document.getElementById('formError').style.display='block'; }
+    } catch(err){ document.getElementById('formError').style.display='block'; }
+    btn.disabled=false; btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Nachricht senden';
+  });
   const obs=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('visible')),{threshold:.1});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
